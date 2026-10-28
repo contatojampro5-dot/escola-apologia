@@ -2487,7 +2487,8 @@ function mountStory(){
     puxar para baixo fecha com o quadro acompanhando o dedo. No toque usamos touch events, porque o
     navegador cancela os pointer events quando assume a rolagem vertical. */
  const stage=$("#stStage"),frame=el.querySelector(".st-frame"),touch="ontouchstart" in window;let P=null;
- const isUI=t=>t.closest("button,a,input,textarea,select,label,[data-ui],.stk,.dm");
+ const elOf=t=>t&&t.nodeType===3?t.parentElement:t;
+ const isUI=t=>{t=elOf(t);return!!(t&&t.closest&&t.closest("button,a,input,textarea,select,label,[data-ui],.stk,.dm"))};
  const holdOff=()=>{if(!ST||!ST.hold)return;ST.hold=false;pauseUI();if(TTS&&ST.speaking)TTS.resume()};
  const R0=parseFloat(getComputedStyle(frame).borderTopLeftRadius)||0,ease=".28s cubic-bezier(.2,.8,.2,1)";
  const pull=y=>{const k=Math.min(1,y/420);frame.style.animation="none";
@@ -2514,6 +2515,14 @@ function mountStory(){
   /* preventDefault no touchend evita o "clique fantasma" no botão que aparece sob o dedo na tela seguinte */
   stage.addEventListener("touchend",e=>{if(e.touches.length)return;const t=e.changedTouches[0];if(gEnd(t.clientX,t.clientY)&&e.cancelable)e.preventDefault()});
   stage.addEventListener("touchcancel",gCancel);
+  /* Toque firme em botões: no iPhone o clique às vezes se perde dentro do app; disparamos nós mesmos
+     quando o dedo começa e termina no mesmo botão, e cancelamos o clique nativo para não contar duas vezes. */
+  let U=null;
+  frame.addEventListener("touchstart",e=>{const t=elOf(e.target),b=t&&t.closest&&t.closest("button,a[href]");U=e.touches.length===1&&b&&!b.disabled?{b,x:e.touches[0].clientX,y:e.touches[0].clientY}:null},{passive:true});
+  frame.addEventListener("touchmove",e=>{if(U){const t=e.touches[0];if(Math.hypot(t.clientX-U.x,t.clientY-U.y)>12)U=null}},{passive:true});
+  frame.addEventListener("touchend",e=>{if(!U)return;const u=U;U=null;const t=e.changedTouches[0],o=document.elementFromPoint(t.clientX,t.clientY);
+   if(!o||!u.b.contains(o)||u.b.disabled||!u.b.isConnected)return;if(e.cancelable)e.preventDefault();u.b.click()});
+  frame.addEventListener("touchcancel",()=>{U=null});
  }
  const mine=e=>!touch||e.pointerType!=="touch";
  stage.addEventListener("pointerdown",e=>{if(!mine(e)||e.button>0)return;if(gStart(e.clientX,e.clientY,e.target))try{stage.setPointerCapture(e.pointerId)}catch(_){}});
