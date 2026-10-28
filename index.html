@@ -1848,7 +1848,7 @@ function mArt(id,stage,o={}){
 
 /* ================== MENTORES ================== */
 /* Mestres bíblicos: um por nível. Quem sobe de nível é o aluno (RANKS), não o mestre. */
-const RANKS=["Aprendiz","Discípulo","Cooperador","Embaixador"];
+const RANKS=["Catecúmeno","Discípulo","Cooperador","Embaixador"];
 const MENTORS={
  pedro:{id:"pedro",t:"t1",name:"Pedro",sp:"pescador da Galileia",he:"o",c1:"#1E6A8A",c2:"#0A2333",acc:"#FFC76B",st:RANKS,
   bio:"Pescador de Cafarnaum, Pedro largou as redes para seguir Jesus (Mc 1.16-18). Negou o Mestre, foi restaurado por ele (Jo 21.15-17) e escreveu: “estejam sempre preparados para responder” (1 Pe 3.15). Com ele você constrói o alicerce da fé.",
@@ -2346,7 +2346,7 @@ function albumCardHTML(){const L=figList(),own=L.filter(f=>figOwned(f)&&S.figSee
 
 function viewMentores(){
  app.innerHTML=`<a class="back" href="#inicio">${IC.back} Início</a>
- <section class="hero"><span class="eyebrow"><span class="rub">¶</span> Quem caminha com você</span><h1>Seus mestres</h1><p class="lead">Cada nível tem um mestre da Bíblia. Você sobe de nível com ele, de Aprendiz a Embaixador, quando assiste aos stories, aprova a prova, tira nota máxima e cumpre a missão de cada lição.</p></section>
+ <section class="hero"><span class="eyebrow"><span class="rub">¶</span> Quem caminha com você</span><h1>Seus mestres</h1><p class="lead">Cada nível tem um mestre da Bíblia. Você sobe de nível com ele, de Catecúmeno a Embaixador, quando assiste aos stories, aprova a prova, tira nota máxima e cumpre a missão de cada lição.</p></section>
  <div class="mgrid">${MKEYS.map(k=>{const M=MENTORS[k],t=trackOfMk(k),st=mStage(k),p=mPts(k),nx=MSTAGE[st+1],un=trackUnlocked(t);
   return`<a class="mtile ${un?"":"locked"}" href="#mentor-${k}" style="${mVars(k)}"><span class="art">${mArt(k,st)}</span><b>${M.name}</b><span>${esc(t.name)} · você: ${M.st[st]}</span><div class="bar" aria-hidden="true"><i style="width:${nx!=null?Math.round((p-MSTAGE[st])/(nx-MSTAGE[st])*100):100}%"></i></div></a>`}).join("")}</div>`;
 }
