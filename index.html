@@ -575,13 +575,13 @@ html.st-open,html.st-open body{overflow:hidden}
 .bug{display:flex;flex-wrap:wrap;gap:6px}
 .bug .so{width:auto;font-size:1.02rem;padding:10px 12px}
 .bug .so.no{text-decoration:line-through}
-.sld{position:relative;padding:34px 0 6px}
+.sld{position:relative;padding:14px 0 10px}
 .sld input{width:100%;margin:0;height:44px;-webkit-appearance:none;appearance:none;background:transparent;position:relative;z-index:2;cursor:pointer}
 .sld input::-webkit-slider-runnable-track{height:10px;border-radius:6px;background:linear-gradient(90deg,#E5E7F0,var(--c1))}
 .sld input::-moz-range-track{height:10px;border-radius:6px;background:linear-gradient(90deg,#E5E7F0,var(--c1))}
-.sld input::-webkit-slider-thumb{-webkit-appearance:none;width:44px;height:44px;margin-top:-17px;border-radius:50%;background:transparent;border:0}
-.sld input::-moz-range-thumb{width:44px;height:44px;border-radius:50%;background:transparent;border:0}
-.sld .emo{position:absolute;top:22px;font-size:2.6rem;line-height:1;transform:translateX(-50%);pointer-events:none;z-index:3;transition:font-size .15s;filter:drop-shadow(0 4px 8px rgba(0,0,0,.2))}
+.sld input::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:44px;height:44px;margin-top:-17px;border-radius:50%;background:transparent;border:0;box-shadow:none;opacity:0}
+.sld input::-moz-range-thumb{width:44px;height:44px;border-radius:50%;background:transparent;border:0;box-shadow:none;opacity:0}
+.sld .emo{position:absolute;top:36px;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(20,24,60,.22),0 0 0 3px var(--c1);display:grid;place-items:center;font-size:1.9rem;line-height:1;pointer-events:none;z-index:3;transition:transform .15s}
 .sld-scale{display:flex;justify-content:space-between;align-items:center;font-size:.76rem;font-weight:700;color:#7B8099}
 .sld-val{font-weight:800;font-size:1.6rem;font-variant-numeric:tabular-nums;color:#14172B}
 
@@ -2739,7 +2739,7 @@ function bindSlide(s){
  switch(s.k){
  case"cover":{const tx=$("#stText");if(tx)tx.onclick=()=>{closeStory(false);location.replace("#m-"+id)};break}
  case"slider":{const r=q("#conf"),emo=q("#emo"),val=q("#confv");
-  const upd=()=>{const v=+r.value;emo.textContent=v<20?"😰":v<40?"😕":v<60?"😐":v<80?"🙂":"😎";emo.style.left=`calc(${v}% + ${(22-v*.44).toFixed(1)}px)`;emo.style.fontSize=(2.2+v/100*1.1).toFixed(2)+"rem";val.textContent=v+"%"};
+  const upd=()=>{const v=+r.value;emo.textContent=v<20?"😰":v<40?"😕":v<60?"😐":v<80?"🙂":"😎";emo.style.left=`calc(${v}% + ${(22-v*.44).toFixed(1)}px)`;emo.style.transform=`scale(${(.92+v/100*.2).toFixed(3)})`;val.textContent=v+"%"};
   upd();r.oninput=()=>{upd();S.story[id]["c"+s.ph]=+r.value;if(nb)nb.textContent="Continuar"};r.onchange=()=>save();break}
  case"tf":case"pick":case"prova":{
   const isP=s.k==="prova",qq=isP?ST.m.quiz[s.qi]:s,A=isP?ST.prova.ans[s.qi]:ST.ans[ST.i],right=s.k==="tf"?(s.a?1:0):qq.c,st=mStage(ST.mk);
