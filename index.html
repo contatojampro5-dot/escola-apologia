@@ -1403,7 +1403,7 @@ function drawTrail(T){
    const side=x<=cx?"r":"l",space=(side==="r"?W-x:x)-off-4;
    const sub=st==="done"?`Aprovada · ${Math.round(best*100)}%`:st==="current"?`Agora · ${m.min} min`:st==="open"?(best!=null?`Tente de novo · ${Math.round(best*100)}%`:`Disponível · ${m.min} min`):"Bloqueada";
    const inner=`<span class="disc">${st==="done"?IC.check:st==="locked"?lock:t.n+"."+(i+1)}</span>${st==="current"?`<span class="here"><i>${esc(me)}</i>Você está aqui</span>`:""}<span class="nlabel ${side}" style="${side==="r"?"left":"right"}:${off}px;max-width:${Math.round(Math.max(96,Math.min(160*fs,space)))}px"><b>${esc(m.title)}</b><span>${sub}</span></span>`;
-   html+=st==="locked"?`<span class="node locked" style="left:${x}px;top:${cy}px" aria-label="${esc(m.title)}, bloqueada">${inner}</span>`:`<a class="node ${st}" href="#s-${id}" style="left:${x}px;top:${cy}px" aria-label="${esc(m.title)}, ${sub}">${inner}</a>`;
+   html+=st==="locked"?`<span class="node locked" style="left:${x}px;top:${cy}px" aria-label="${esc(m.title)}, bloqueada">${inner}</span>`:`<a class="node ${st}" href="#m-${id}" style="left:${x}px;top:${cy}px" aria-label="${esc(m.title)}, ${sub}">${inner}</a>`;
    y+=ROW;
   });
   y+=GAP-ROW+Z.c/2+10;
