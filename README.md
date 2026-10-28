@@ -8,7 +8,7 @@ Site: https://contatojampro5-dot.github.io/escola-apologia/
 
 - **Trilha de 16 lições** em 4 níveis: Fundamentos, Doutrina, Apologética e Cosmovisão e coragem.
 - **Lições em stories**: cada lição em telas curtas, no estilo Instagram, com conversa simulada no chat, minijogos (ordem certa, ligue os pares, ache o erro, verdadeiro ou falso), prova e narração em voz.
-- **Mentores que evoluem**: Joca (joão-de-barro), Pri (coruja-buraqueira), Tito (tatu-bola) e Dani (harpia), um por tema, com 4 estágios e habilidades (Dica e Segunda chance).
+- **Mestres bíblicos**: Pedro (Fundamentos), Paulo (Doutrina), Lucas (Apologética) e Daniel (Cosmovisão e coragem) ensinam nos stories. Você sobe de nível com cada um, de Aprendiz a Discípulo, Cooperador e Embaixador, e libera habilidades (Dica e Segunda chance).
 - **Álbum de figurinhas**: 52 figurinhas, 3 por lição e uma lendária por tema.
 - **Missões da vida real**: um desafio prático por lição.
 - **Duelo relâmpago**: 2 jogadores no mesmo celular.

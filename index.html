@@ -334,7 +334,7 @@ hr{border:0;border-top:.5px solid var(--hair);margin:0}
 @media (max-width:420px){.stats b{font-size:1.25rem}.scoregrid{grid-template-columns:repeat(2,1fr)}}
 
 /* ===== v2: mentores, stories, figurinhas, missões e duelo ===== */
-/* Stories: tela cheia imersiva (sempre escura), com a paleta do mentor do tema. */
+/* Stories: tela cheia imersiva (sempre escura), com a paleta do mestre do nível. */
 .mart{display:block;width:100%;height:100%;overflow:visible}
 .m-rays{transform-origin:100px 104px;animation:mrot 40s linear infinite}
 @keyframes mrot{to{transform:rotate(360deg)}}
@@ -622,7 +622,7 @@ html.st-open,html.st-open body{overflow:hidden}
 @keyframes flipIn{0%{transform:perspective(600px) rotateY(90deg) translateY(20px);opacity:0}100%{transform:none;opacity:1}}
 
 /* evolução */
-.evo-st{position:relative;width:min(70vw,270px);aspect-ratio:1;align-self:center}
+.evo-st{position:relative;width:min(70vw,270px,34vh);aspect-ratio:1;align-self:center}
 .evo-st .a,.evo-st .b{position:absolute;inset:0}
 .evo-st .a{animation:evoOut 1.6s ease forwards}
 .evo-st .b{opacity:0;animation:evoIn .9s 1.2s cubic-bezier(.2,.8,.2,1) forwards}
@@ -1676,13 +1676,13 @@ function viewLivros(){
 /* ----- Perfil ----- */
 function badges(){const st=Math.max(streak(),S.bestStreak||0);const t=n=>TRACKS[n].mods.filter(passed).length===4;const rd=BOOKS.filter(b=>S.books[b.id]==="lido").length;const perf=Object.values(S.lessons).filter(l=>l.best===1).length;
  const figs=figList().filter(f=>figOwned(f)&&S.figSeen[f.id]).length,mis=Object.values(S.missions).filter(m=>m.done).length;
- return[["I","Primeiro passo","1 lição aprovada",Object.keys(MODS).some(passed)],["II","Fundamentado","Nível 1 completo",t(0)],["III","Doutrinado","Nível 2 completo",t(1)],["IV","Apologeta","Nível 3 completo",t(2)],["V","Mestre","Nível 4 completo",t(3)],["7","Constante","7 dias seguidos",st>=7],["30","Inabalável","30 dias seguidos",st>=30],["¶","Debatedor","10 debates",S.debates>=10],["L","Leitor","3 livros lidos",rd>=3],["★","Precisão","5 provas perfeitas",perf>=5],["50","Memória","50 cards na caixa 3+",Object.values(S.cards).filter(c=>c.box>=3).length>=50],["26","Colecionador","26 figurinhas coladas",figs>=26],["✦","Lendário","1 mentor no estágio 4",MKEYS.some(k=>mStage(k)>=3)],["M","Missionário","5 missões cumpridas",mis>=5],["VS","Duelista","5 duelos jogados",(S.duels||0)>=5]]}
+ return[["I","Primeiro passo","1 lição aprovada",Object.keys(MODS).some(passed)],["II","Fundamentado","Nível 1 completo",t(0)],["III","Doutrinado","Nível 2 completo",t(1)],["IV","Apologeta","Nível 3 completo",t(2)],["V","Mestre","Nível 4 completo",t(3)],["7","Constante","7 dias seguidos",st>=7],["30","Inabalável","30 dias seguidos",st>=30],["¶","Debatedor","10 debates",S.debates>=10],["L","Leitor","3 livros lidos",rd>=3],["★","Precisão","5 provas perfeitas",perf>=5],["50","Memória","50 cards na caixa 3+",Object.values(S.cards).filter(c=>c.box>=3).length>=50],["26","Colecionador","26 figurinhas coladas",figs>=26],["✦","Embaixador","Embaixador com 1 mestre",MKEYS.some(k=>mStage(k)>=3)],["M","Missionário","5 missões cumpridas",mis>=5],["VS","Duelista","5 duelos jogados",(S.duels||0)>=5]]}
 function viewPerfil(){
  S.bestStreak=Math.max(S.bestStreak||0,streak());
  const L=level();
  app.innerHTML=`<section class="hero"><span class="eyebrow"><span class="rub">¶</span> Seu progresso</span><h1>${S.name?esc(S.name):"Perfil"}</h1><p class="lead">${L.name} · ${S.xp} XP · recorde de ${S.bestStreak} dia${S.bestStreak===1?"":"s"} seguidos</p></section>
  <div class="card stack"><label for="nm" style="font-weight:600">Como quer ser chamado?</label><div class="row"><input type="text" id="nm" value="${esc(S.name)}" maxlength="30" style="flex:1;min-width:0"><button class="btn pri" id="nmb">Salvar</button></div></div>
- <div class="grid2"><a class="card st-cta" href="#mentores" style="${mVars("joca")}"><span class="mini-av" aria-hidden="true">${face("joca")}</span><div><b>Seus mentores</b><p class="small muted">${MKEYS.map(k=>MENTORS[k].name+" "+(mStage(k)+1)).join(" · ")}</p></div></a><a class="card st-cta" href="#album"><span class="alb-fan" aria-hidden="true" style="transform:scale(.6);width:52px;height:52px;margin:-10px 0"><span></span><span></span><span></span></span><div><b>Álbum de figurinhas</b><p class="small muted">${figList().filter(f=>figOwned(f)&&S.figSeen[f.id]).length} de ${figList().length} coladas</p></div></a></div>
+ <div class="grid2"><a class="card st-cta" href="#mentores" style="${mVars("pedro")}"><span class="mini-av" aria-hidden="true">${face("pedro")}</span><div><b>Seus mestres</b><p class="small muted">${MKEYS.map(k=>MENTORS[k].name+": "+RANKS[mStage(k)]).join(" · ")}</p></div></a><a class="card st-cta" href="#album"><span class="alb-fan" aria-hidden="true" style="transform:scale(.6);width:52px;height:52px;margin:-10px 0"><span></span><span></span><span></span></span><div><b>Álbum de figurinhas</b><p class="small muted">${figList().filter(f=>figOwned(f)&&S.figSeen[f.id]).length} de ${figList().length} coladas</p></div></a></div>
  <div class="stack"><h2 style="font-size:1.3rem">Medalhas</h2><div class="badges">${badges().map(([s,t,d,ok])=>`<div class="badge glass ${ok?"":"off"}"><div class="seal">${s}</div><b>${t}</b><span>${d}</span></div>`).join("")}</div></div>
  ${lookPanel()}
  <div class="card"><h2 style="font-size:1.2rem;margin-bottom:6px">Ajustes</h2>
@@ -1699,7 +1699,7 @@ function viewPerfil(){
   $("#rsn").onclick=()=>$("#rsc").innerHTML="";$("#rsy").onclick=()=>{const nm=S.name;const lk=S.look;S=fresh();S.name=nm;S.look=lk;normState();save();hdr();toast("Progresso apagado");route()}};
 }
 
-/* ================== MENTORES: ARTE ================== */
+/* ================== MESTRES: ARTE ================== */
 let MUID=0;
 const eyeS=(x,y,r,c="#1B140F")=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/><circle cx="${(x+r*.34).toFixed(1)}" cy="${(y-r*.36).toFixed(1)}" r="${(r*.4).toFixed(1)}" fill="#fff"/><circle cx="${(x-r*.32).toFixed(1)}" cy="${(y+r*.36).toFixed(1)}" r="${(r*.17).toFixed(1)}" fill="#fff" opacity=".85"/>`;
 const shadowS=(rx=46,cy=188)=>`<ellipse cx="100" cy="${cy}" rx="${rx}" ry="6.5" fill="#000" opacity=".16"/>`;
@@ -1712,215 +1712,165 @@ const GOLD="#F2C14E";
 function featherS(x,y,ang,l,w,fill,extra=""){return`<path d="M0 0C${(l*.3).toFixed(1)} ${-w} ${(l*.78).toFixed(1)} ${-w} ${l} 0C${(l*.78).toFixed(1)} ${w} ${(l*.3).toFixed(1)} ${w} 0 0Z" transform="translate(${x} ${y}) rotate(${ang})" fill="${fill}"${extra}/>`}
 function legendSpark(){return sparkS(34,40,7,"#FFF4C7")+sparkS(166,52,5,"#FFF4C7")+sparkS(172,150,6,"#FFE08A")+sparkS(28,138,4.5,"#FFE08A")+sparkS(146,22,4,"#fff")}
 
-/* Joca · joão-de-barro */
-function jocaAdult(u,gold){
- return`<defs><linearGradient id="${u}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D27D41"/><stop offset="1" stop-color="#A7522B"/></linearGradient><linearGradient id="${u}h" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B75F2E"/><stop offset="1" stop-color="#C46E38"/></linearGradient></defs>
- <path d="M76 124C62 112 48 94 38 72C36 66 42 61 47 66C60 80 72 94 86 106Z" fill="#94461F"/>
- <path d="M44 70C54 84 64 96 76 108" stroke="${gold?GOLD:"#B4592A"}" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
- <path d="M96 168L92 185M112 168L116 185" stroke="#6F5B4C" stroke-width="4" stroke-linecap="round"/>
- <path d="M84 186.5H100M108 186.5H124" stroke="#6F5B4C" stroke-width="3.5" stroke-linecap="round"/>
- <ellipse cx="102" cy="130" rx="44" ry="44" fill="url(#${u}b)"/>
- <path d="M104 104C128 104 142 122 140 145C138 164 122 174 106 172C92 170 86 158 88 140C90 122 94 106 104 104Z" fill="#F4DFBC"/>
- <path d="M62 118C66 100 84 94 98 100C110 106 112 126 104 146C98 160 86 168 74 164C64 160 58 146 58 134C58 128 60 122 62 118Z" fill="#8F431E"/>
- <path d="M70 142C78 148 88 148 96 142M68 129C78 135 90 135 101 129" stroke="${gold?GOLD:"#B55E2C"}" stroke-width="2.6" fill="none" stroke-linecap="round"/>
- <circle cx="118" cy="78" r="34" fill="url(#${u}h)"/>
- <path d="M86 72C90 52 110 42 128 45C143 48 151 58 152 69C138 59 112 58 86 72Z" fill="${gold?"#C9862C":"#9C4C24"}" opacity="${gold?".9":".55"}"/>
- <path d="M114 64C124 58 138 58 148 66" stroke="#F1D9B5" stroke-width="5" fill="none" stroke-linecap="round"/>
- <ellipse cx="132" cy="101" rx="17" ry="12" fill="#FBF2E2"/>
- ${eyeS(132,78,7.5)}
- <path d="M150 82C160 81 170 84 177 90C168 91 158 91 150 89C148 87 148 84 150 82Z" fill="#3E2C21"/>
- <ellipse cx="141" cy="92" rx="6" ry="3.5" fill="#E8866A" opacity=".45"/>`;
-}
-function artJoca(s,u){
- if(s===0)return`${shadowS(34)}
- <path d="M96 170L94 183M108 170L110 183" stroke="#7A6656" stroke-width="3.5" stroke-linecap="round"/><path d="M88 184H99M104 184H115" stroke="#7A6656" stroke-width="3" stroke-linecap="round"/>
- <path d="M70 138C60 132 56 124 58 116C64 122 70 126 78 128Z" fill="#A85E30"/>
- <circle cx="100" cy="142" r="34" fill="#CB7C45"/>
- <ellipse cx="108" cy="150" rx="21" ry="22" fill="#F6E4C6"/>
- <ellipse cx="80" cy="144" rx="11" ry="16" transform="rotate(14 80 144)" fill="#A85E30"/>
- <circle cx="108" cy="104" r="31" fill="#C97A45"/>
- <path d="M92 76C82 74 80 66 86 62C88 68 92 72 98 74Z" fill="#C97A45"/>
- ${eyeS(120,104,9)}
- <path d="M136 108L150 111L136 115Z" fill="#6B4A33"/>
- <ellipse cx="128" cy="118" rx="6" ry="3.5" fill="#E8866A" opacity=".5"/>
- <path d="M80 88C80 66 134 62 138 86L131 80L124 90L117 79L110 90L103 79L96 90L89 80Z" fill="#FFF8EC" stroke="#E2D2B8" stroke-width="1.6" stroke-linejoin="round"/>`;
- if(s===1)return`${shadowS(40)}<g transform="translate(100 188) scale(.86) translate(-100 -188)">${jocaAdult(u)}</g>
- <path d="M148 92L186 108M170 101L178 92M162 98L166 108" stroke="#D2A85E" stroke-width="3" stroke-linecap="round" fill="none"/>`;
- const nest=`<path d="M6 182C6 130 30 104 56 104C82 104 106 130 106 182Z" fill="${s===3?"#C98A55":"#B97B4F"}"/>
- <path d="M20 152C30 148 40 150 48 146M62 130C72 128 82 132 90 130M18 172C30 168 42 172 54 168M74 162C84 158 92 162 100 158M34 128C40 122 48 120 54 118" stroke="#9E6440" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>
- <path d="M26 134C34 118 46 110 56 108" stroke="${s===3?"#F3C98B":"#D49A6C"}" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8"/>
- <path d="M40 182C40 160 48 148 58 148C68 148 76 160 76 182Z" fill="#3A2216"/>`;
- if(s===2)return`${shadowS(70,189)}${nest}<g transform="translate(16 0)">${jocaAdult(u)}</g>`;
- return`${auraS(u,"#FFC24A")}<path d="M-4 192C2 176 18 168 38 170C58 166 88 170 110 180L112 196H-4Z" fill="#7E858E"/><path d="M8 178C20 172 34 172 46 174" stroke="#A9B0B8" stroke-width="4" fill="none" stroke-linecap="round"/><g transform="translate(0 -8)">${nest}</g><g transform="translate(18 -2)">${jocaAdult(u,1)}</g>${legendSpark()}`;
+/* Pessoas: figura base comum, com cabelo, barba, roupa e pose de cada mestre */
+function personS(u,o){
+ const K=o.skin,KS=o.skinSh,g=o.gold,trim=g?GOLD:o.trim;
+ const sleeve=o.sleeve||o.tunic;
+ const feet=`<ellipse cx="88" cy="185.5" rx="10.5" ry="4.6" fill="#5A3E2B"/><ellipse cx="112" cy="185.5" rx="10.5" ry="4.6" fill="#5A3E2B"/><ellipse cx="88" cy="183.2" rx="6.5" ry="2.8" fill="${K}"/><ellipse cx="112" cy="183.2" rx="6.5" ry="2.8" fill="${K}"/>`;
+ const tunic=`<defs><linearGradient id="${u}t" x1="0" y1="0" x2="1" y2="0"><stop offset=".55" stop-color="${o.tunic}"/><stop offset="1" stop-color="${o.tunicSh}"/></linearGradient></defs>
+ <path d="M80 102C71 126 65 156 62 182Q100 190 138 182C135 156 129 126 120 102Z" fill="url(#${u}t)"/>`;
+ const belt=o.belt?`<path d="M69 142Q100 150 131 142L132.5 150Q100 158 67.5 150Z" fill="${o.belt}"/>`:"";
+ const mantle=o.mantle?`<path d="M80 102C71 126 65 156 62 182L80 185C80 156 86 128 98 108Z" fill="${o.mantle}"/>
+ <path d="M80 103C98 106 118 124 131 158L137 183L124 185C115 154 100 130 82 118Z" fill="${o.mantle}"/>
+ <path d="M82 118C100 130 115 154 124 185" stroke="${trim}" stroke-width="${g?3.4:2.4}" fill="none" stroke-linecap="round" opacity="${g?1:.75}"/>
+ <path d="M80 185C80 156 86 128 98 108" stroke="${o.mantleSh}" stroke-width="2.2" fill="none" opacity=".6"/>`:"";
+ const arm=o.arms||"down";
+ let arms="",hands="";
+ if(arm==="down"){
+  arms=`<path d="M83 105C70 111 62 129 62 150C64 156 74 156 76 150C76 134 80 122 88 114Z" fill="${sleeve}"/><path d="M117 105C130 111 138 129 138 150C136 156 126 156 124 150C124 134 120 122 112 114Z" fill="${o.sleeveR||sleeve}"/>`;
+  hands=`<circle cx="69" cy="155" r="6.6" fill="${K}"/><circle cx="131" cy="155" r="6.6" fill="${K}"/>`;
+ }else if(arm==="front"){
+  arms=`<path d="M83 105C70 113 65 131 71 146C77 153 88 151 93 145C88 136 86 124 90 113Z" fill="${sleeve}"/><path d="M117 105C130 113 135 131 129 146C123 153 112 151 107 145C112 136 114 124 110 113Z" fill="${o.sleeveR||sleeve}"/>`;
+  hands=`<circle cx="87" cy="146" r="6.6" fill="${K}"/><circle cx="113" cy="146" r="6.6" fill="${K}"/>`;
+ }else{ /* oração: mãos juntas no peito */
+  arms=`<path d="M83 105C71 113 68 129 74 140C80 146 90 143 96 136C90 130 88 122 90 113Z" fill="${sleeve}"/><path d="M117 105C129 113 132 129 126 140C120 146 110 143 104 136C110 130 112 122 110 113Z" fill="${o.sleeveR||sleeve}"/>`;
+  hands=`<g transform="rotate(-4 100 128)"><rect x="90.6" y="111" width="9.6" height="29" rx="4.8" fill="${K}"/><rect x="99.8" y="111" width="9.6" height="29" rx="4.8" fill="${K}"/><path d="M100 114V138" stroke="${KS}" stroke-width="1.4" stroke-linecap="round"/><ellipse cx="94" cy="133" rx="3.4" ry="5.4" transform="rotate(18 94 133)" fill="${KS}" opacity=".55"/><ellipse cx="106" cy="133" rx="3.4" ry="5.4" transform="rotate(-18 106 133)" fill="${KS}" opacity=".55"/></g>`;
+ }
+ const neck=`<path d="M91 92H109V106Q100 111 91 106Z" fill="${KS}"/>`;
+ const collar=`<path d="M86 102Q100 112 114 102" stroke="${o.tunicSh}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+ const ears=`<ellipse cx="69.5" cy="73" rx="5.6" ry="7.2" fill="${K}"/><ellipse cx="130.5" cy="73" rx="5.6" ry="7.2" fill="${K}"/><path d="M68.5 70Q71 73 69 77M131.5 70Q129 73 131 77" stroke="${KS}" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
+ const head=`<circle cx="100" cy="70" r="31" fill="${K}"/>`;
+ const face=`${eyeS(88,74,5.3,"#20150F")}${eyeS(112,74,5.3,"#20150F")}
+ <path d="M81.5 64.5Q88 60.5 94.5 63.5M105.5 63.5Q112 60.5 118.5 64.5" stroke="${o.brow}" stroke-width="3.1" fill="none" stroke-linecap="round"/>
+ <path d="M100 76Q97 83.5 99.5 85.5Q102.5 86.2 104 84.4" stroke="${KS}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+ <ellipse cx="80.5" cy="84" rx="5.2" ry="3.2" fill="#E07B68" opacity=".33"/><ellipse cx="119.5" cy="84" rx="5.2" ry="3.2" fill="#E07B68" opacity=".33"/>`;
+ const mouth=`<path d="M93.5 92.5Q100 97.5 106.5 92.5" stroke="#7A3B2E" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
+ return`${o.behind||""}${feet}${tunic}${belt}${mantle}${o.onBody||""}${arms}${o.held||""}${hands}${o.overHands||""}${neck}${collar}${ears}${head}${o.hairBack||""}${face}${o.beard?o.beard+(o.mouthOver||""):mouth}${o.hair||""}${o.top||""}`;
 }
 
-/* Pri · coruja-buraqueira */
-function priAdult(u,o={}){
- const g=o.gold;
- return`<path d="M90 158L88 185M110 158L112 185" stroke="#D2BD93" stroke-width="5" stroke-linecap="round"/>
- <path d="M80 186.5H96M104 186.5H120" stroke="#D2BD93" stroke-width="4" stroke-linecap="round"/>
- <ellipse cx="100" cy="128" rx="42" ry="40" fill="#8E6D4E"/>
- <path d="M60 104C48 120 48 148 62 166C74 158 80 136 74 112C70 106 64 102 60 104Z" fill="#735539"/>
- <path d="M140 104C152 120 152 148 138 166C126 158 120 136 126 112C130 106 136 102 140 104Z" fill="#735539"/>
- <g fill="#F6EEDF"><circle cx="61" cy="124" r="2.4"/><circle cx="63" cy="139" r="2.4"/><circle cx="67" cy="153" r="2.2"/><circle cx="139" cy="124" r="2.4"/><circle cx="137" cy="139" r="2.4"/><circle cx="133" cy="153" r="2.2"/></g>
- <ellipse cx="100" cy="136" rx="28" ry="30" fill="#F0E4CD"/>
- <path d="M84 124q8 4 16 0q8-4 16 0M82 138q9 4 18 0q9-4 18 0M86 152q7 4 14 0q7-4 14 0" stroke="#B08D64" stroke-width="2.6" fill="none" stroke-linecap="round"/>
- <circle cx="100" cy="76" r="40" fill="#8E6D4E"/>
- <g fill="#F6EEDF"><circle cx="80" cy="50" r="2.4"/><circle cx="92" cy="43" r="2.4"/><circle cx="108" cy="43" r="2.4"/><circle cx="120" cy="50" r="2.4"/><circle cx="100" cy="51" r="2.2"/><circle cx="70" cy="62" r="2"/><circle cx="130" cy="62" r="2"/></g>
- <circle cx="83" cy="83" r="18" fill="#BA9571"/><circle cx="117" cy="83" r="18" fill="#BA9571"/>
- <path d="M64 66C76 60 92 64 100 76C108 64 124 60 136 66C128 70 112 72 100 84C88 72 72 70 64 66Z" fill="#FAF4E8"/>
- <circle cx="84" cy="85" r="13" fill="#F6C83A"/><circle cx="116" cy="85" r="13" fill="#F6C83A"/>
- ${eyeS(85,86,7)}${eyeS(115,86,7)}
- <path d="M95 97C97 94 103 94 105 97L100 108Z" fill="#E9DAB4"/>
- <path d="M84 110C92 116 108 116 116 110C112 118 88 118 84 110Z" fill="#FAF4E8"/>
- ${o.glasses?`<g fill="none" stroke="${g?"#E3AE2F":"#2E2219"}" stroke-width="2.8"><circle cx="84" cy="85" r="16"/><circle cx="116" cy="85" r="16"/><path d="M98 82Q100 78 102 82"/></g>`:""}`;
-}
-function priBook(gold,u){return`${gold?`<defs><radialGradient id="${u}g"><stop offset="0" stop-color="#FFF1BF" stop-opacity=".95"/><stop offset="1" stop-color="#FFE08A" stop-opacity="0"/></radialGradient></defs><ellipse cx="100" cy="134" rx="50" ry="26" fill="url(#${u}g)"/>`:""}
- <path d="M62 132L100 140L138 132L138 168L100 176L62 168Z" fill="${gold?"#B8322F":"#7E2C2C"}"/>
- <path d="M66 132L100 139L100 172L66 165Z" fill="#FFFDF5"/><path d="M134 132L100 139L100 172L134 165Z" fill="#F4EEDF"/>
- <path d="M72 142L94 146M72 150L94 154M72 158L94 162M106 146L128 142M106 154L128 150M106 162L128 158" stroke="#CDBFA8" stroke-width="2" stroke-linecap="round"/>
- <ellipse cx="64" cy="150" rx="8" ry="11" fill="#735539"/><ellipse cx="136" cy="150" rx="8" ry="11" fill="#735539"/>`}
-function artPri(s,u){
- if(s===0)return`${shadowS(32)}
- <path d="M92 170L91 184M108 170L109 184" stroke="#D2BD93" stroke-width="4" stroke-linecap="round"/><path d="M85 185H97M103 185H115" stroke="#D2BD93" stroke-width="3.2" stroke-linecap="round"/>
- <ellipse cx="100" cy="144" rx="34" ry="32" fill="#D6C9B2"/>
- <ellipse cx="100" cy="150" rx="22" ry="22" fill="#F2EBDD"/>
- <path d="M68 132C62 142 64 158 74 166C78 156 78 144 74 134Z" fill="#C2B49B"/><path d="M132 132C138 142 136 158 126 166C122 156 122 144 126 134Z" fill="#C2B49B"/>
- <circle cx="100" cy="102" r="34" fill="#D6C9B2"/>
- <path d="M86 70C86 62 92 58 96 62C96 66 94 70 92 72ZM104 68C106 60 114 58 116 64C114 68 110 70 106 72Z" fill="#D6C9B2"/>
- <circle cx="86" cy="106" r="16" fill="#E9E1D2"/><circle cx="114" cy="106" r="16" fill="#E9E1D2"/>
- <circle cx="86" cy="107" r="13" fill="#F6C83A"/><circle cx="114" cy="107" r="13" fill="#F6C83A"/>
- ${eyeS(87,108,8)}${eyeS(113,108,8)}
- <path d="M96 119C98 117 102 117 104 119L100 127Z" fill="#E9DAB4"/>`;
- if(s===1)return`${shadowS(40)}<g transform="translate(100 188) scale(.88) translate(-100 -188)">${priAdult(u,{glasses:1})}</g>`;
- if(s===2)return`${shadowS(44)}${priAdult(u,{glasses:1})}${priBook()}`;
- return`${auraS(u,"#FFD45C")}${shadowS(44)}${priAdult(u,{glasses:1,gold:1})}${priBook(1,u)}${legendSpark()}`;
+/* Pedro · pescador da Galileia */
+function pedroS(u,s){
+ const g=s===3,hair="#9A958F",hairD="#77726D",beardC="#B9B3AB";
+ const curls=[[74,58,7],[81,49,7.5],[91,43,7.5],[100,41,7],[109,43,7.5],[119,49,7.5],[126,58,7]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${hair}"/>`).join("");
+ const hairS=`${curls}<path d="M73 60C80 52 90 50 100 51C110 50 120 52 127 60" stroke="${hairD}" stroke-width="2" fill="none" opacity=".5"/><circle cx="70.5" cy="66" r="5" fill="${hair}"/><circle cx="129.5" cy="66" r="5" fill="${hair}"/>`;
+ const beard=`<path d="M69.5 73C69 97 82 114 100 114C118 114 131 97 130.5 73C127 85 119 89 112.5 87C108 86 104 85.5 100 85.5C96 85.5 92 86 87.5 87C81 89 73 85 69.5 73Z" fill="${beardC}"/>
+ <g fill="none" stroke="#D8D3CB" stroke-width="1.8" stroke-linecap="round" opacity=".8"><path d="M78 96q3 3 6 0M86 104q3 3 6 0M98 107q3 3 6 0M108 103q3 3 6 0M116 95q3 3 6 0"/></g>
+ <path d="M87 88.5Q100 82.5 113 88.5Q107 93.5 100 91.5Q93 93.5 87 88.5Z" fill="#A29C94"/>`;
+ const mouthOver=`<path d="M95 96Q100 99.5 105 96" stroke="#5B2C22" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+ const net=`<g><path d="M80 132C80 124 90 120 100 120C110 120 120 124 120 132C120 148 112 160 100 160C88 160 80 148 80 132Z" fill="#CDB98F"/>
+  <g stroke="#8C7651" stroke-width="1.4" opacity=".85" fill="none"><path d="M84 126L116 158M84 138L106 160M90 122L118 150M100 120L120 140M82 146L94 158M116 126L84 158M116 138L94 160M110 122L82 150M100 120L80 140M118 146L106 158"/></g>
+  <circle cx="86" cy="125" r="3.2" fill="#B5652F"/><circle cx="100" cy="120.5" r="3.2" fill="#B5652F"/><circle cx="114" cy="125" r="3.2" fill="#B5652F"/></g>`;
+ const o={skin:"#C98D62",skinSh:"#A9714A",brow:"#77726D",tunic:"#D7C29A",tunicSh:"#B9A276",mantle:"#2C6D8E",mantleSh:"#1D4E68",trim:"#8FC3DA",sleeve:"#D7C29A",sleeveR:"#BBA57A",belt:"#7A5634",gold:g,
+  hair:hairS,beard,mouthOver,arms:s===0?"down":"front",held:s>=1?net:""};
+ const fig=personS(u,o);
+ if(s<2)return`${shadowS(s===0?44:46)}${fig}`;
+ const boat=`<path d="M-6 136L40 136C38 160 30 176 14 184L-6 184Z" fill="#8A5A36"/><path d="M-6 148H37M-6 160H33M-6 172H25" stroke="#6E4428" stroke-width="2.4"/><path d="M40 136L44 130" stroke="#6E4428" stroke-width="4" stroke-linecap="round"/><path d="M-6 136L40 136" stroke="#B07A4E" stroke-width="3" stroke-linecap="round"/>`;
+ const water=`<path d="M-10 182Q5 176 20 182T50 182T80 182T110 182T140 182T170 182T200 182T230 182V210H-10Z" fill="#4E9BC0" opacity=".55"/><path d="M-10 188Q8 183 26 188T62 188T98 188T134 188T170 188T206 188V210H-10Z" fill="#3B86AE" opacity=".6"/>`;
+ return`${g?auraS(u,"#FFD27A"):""}${boat}${shadowS(44)}<g transform="translate(14 0)">${fig}</g>${water}${g?legendSpark():""}`;
 }
 
-/* Tito · tatu-bola */
-function titoAdult(u,o={}){
- const g=o.gold;
- const helmet=o.helmet?`<path d="M104 82C105 60 126 48 148 50C163 52 173 62 175 76C152 70 128 72 104 84Z" fill="${g?"#E6B43C":"#B5C0CC"}"/><path d="M104 84C128 72 152 70 175 76" stroke="${g?"#B98A1E":"#7F8B99"}" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M118 56C132 42 152 42 163 54" stroke="${g?"#FFE28A":"#8C97A5"}" stroke-width="6" stroke-linecap="round" fill="none"/>`
-  :`<path d="M108 78C112 62 128 54 146 56C158 58 166 64 170 72C152 70 128 72 108 80Z" fill="#9A876C"/>`;
- return`<defs><linearGradient id="${u}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B9A688"/><stop offset="1" stop-color="#7C6950"/></linearGradient></defs>
- <path d="M66 166C54 170 42 168 32 160C42 158 52 156 62 152Z" fill="#7C6950"/>
- <ellipse cx="86" cy="181" rx="13" ry="7" fill="#C79A80"/><ellipse cx="117" cy="181" rx="13" ry="7" fill="#C79A80"/>
- <path d="M56 152C48 118 62 90 90 82C118 76 142 92 146 124C148 146 140 164 126 172L76 172C66 168 58 162 56 152Z" fill="url(#${u}s)"/>
- <path d="M58 112C80 104 120 102 144 112M56 126C80 118 122 116 146 126M58 140C82 132 122 130 146 140" stroke="#665540" stroke-width="3.2" fill="none" stroke-linecap="round"/>
- <g fill="#CDBE9F" opacity=".75"><circle cx="76" cy="98" r="2"/><circle cx="90" cy="92" r="2"/><circle cx="104" cy="90" r="2"/><circle cx="118" cy="92" r="2"/><circle cx="68" cy="152" r="2"/><circle cx="82" cy="156" r="2"/><circle cx="96" cy="158" r="2"/><circle cx="66" cy="166" r="1.6"/></g>
- <path d="M112 112C132 112 142 132 138 152C134 166 122 172 112 170C104 160 104 124 112 112Z" fill="#E7C0A6"/>
- ${o.belt?`<path d="M58 150C82 160 122 160 146 148L147 157C122 168 82 168 60 159Z" fill="${g?"#9B6A2A":"#6B4A2E"}"/><rect x="95" y="155" width="13" height="10" rx="2.5" fill="${GOLD}"/>`:""}
- <path d="M104 86C106 66 124 56 142 58C160 60 172 72 180 88C182 94 178 98 172 98C156 100 140 100 126 98C112 96 104 94 104 86Z" fill="#DDB196"/>
- <ellipse cx="114" cy="62" rx="7" ry="11" transform="rotate(-25 114 62)" fill="#C99A82"/><ellipse cx="114" cy="62" rx="3.5" ry="7" transform="rotate(-25 114 62)" fill="#EBC0A8"/>
- ${helmet}
- ${eyeS(146,80,5.4)}
- <ellipse cx="179" cy="90" rx="4.2" ry="3.6" fill="#5B3C34"/>
- <path d="M160 94C164 96 168 96 171 94" stroke="#8D5E4E" stroke-width="2" fill="none" stroke-linecap="round"/>
- <ellipse cx="156" cy="88" rx="5" ry="3" fill="#E58C7A" opacity=".45"/>`;
-}
-function titoShield(g){return`<g transform="translate(122 140)"><circle r="25" fill="${g?"#C9922A":"#2C4D74"}"/><circle r="21" fill="${g?"#F0C04A":"#4672A6"}"/><circle r="15" fill="${g?"#F7D774":"#5D8BC0"}"/><path d="M-3.5-12h7v8.5h8.5v7h-8.5V12h-7V3.5H-12v-7h8.5Z" fill="${g?"#fff":"#F4F7FB"}"/><path d="M-17-10A21 21 0 0 1-6-19" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/></g>
- <path d="M142 130C150 132 154 138 152 144C148 146 144 144 142 140Z" fill="#D9AE94"/>`}
-function titoArm(){return`<path d="M128 124C136 126 144 132 148 140C146 144 140 144 136 140C132 136 128 132 126 128Z" fill="#D9AE94"/>`}
-function artTito(s,u){
- if(s===0)return`<defs><linearGradient id="${u}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B9A688"/><stop offset="1" stop-color="#7C6950"/></linearGradient></defs>${shadowS(36)}
- <ellipse cx="84" cy="182" rx="9" ry="5" fill="#C79A80"/><ellipse cx="114" cy="183" rx="9" ry="5" fill="#C79A80"/>
- <circle cx="98" cy="146" r="38" fill="url(#${u}s)"/>
- <path d="M64 130C84 118 114 118 134 132M62 146C84 134 114 134 136 148M66 162C86 152 112 152 132 164" stroke="#665540" stroke-width="3" fill="none" stroke-linecap="round"/>
- <path d="M72 124C78 117 86 113 95 112" stroke="#D3C3A4" stroke-width="4" fill="none" stroke-linecap="round" opacity=".7"/>
- <path d="M116 114C122 100 138 94 150 98C162 102 168 112 170 122C162 128 146 128 132 126C122 124 116 120 116 114Z" fill="#DDB196"/>
- <ellipse cx="124" cy="96" rx="6" ry="9" transform="rotate(-25 124 96)" fill="#C99A82"/><ellipse cx="124" cy="96" rx="3" ry="6" transform="rotate(-25 124 96)" fill="#EBC0A8"/>
- <path d="M120 108C124 98 138 92 150 96C158 98 162 102 164 108C150 104 134 106 120 112Z" fill="#9A876C"/>
- ${eyeS(146,112,5)}<ellipse cx="169" cy="121" rx="3.6" ry="3.1" fill="#5B3C34"/><ellipse cx="152" cy="119" rx="4.5" ry="2.6" fill="#E58C7A" opacity=".45"/>`;
- if(s===1)return`${shadowS(44)}<g transform="translate(100 188) scale(.88) translate(-100 -188)">${titoAdult(u)}${titoShield()}</g>`;
- if(s===2)return`${shadowS(46)}${titoAdult(u,{helmet:1,belt:1})}${titoShield()}`;
- return`${auraS(u,"#FFC24A")}${shadowS(46)}
- <g transform="rotate(-24 62 128)"><rect x="57" y="52" width="9" height="62" rx="3" fill="#EEF2F8"/><path d="M57 54L61.5 42L66 54Z" fill="#EEF2F8"/><rect x="59.5" y="56" width="3" height="54" rx="1.5" fill="#C9D3E0"/><rect x="48" y="112" width="27" height="7" rx="3.5" fill="#D6A42E"/><rect x="58" y="119" width="7" height="15" rx="3" fill="#8B5E2B"/></g>
- <path d="M52 146C46 140 46 132 52 128C58 130 60 136 58 142Z" fill="#D9AE94"/>
- ${titoAdult(u,{helmet:1,belt:1,gold:1})}${titoShield(1)}${legendSpark()}`;
+/* Paulo · apóstolo e escritor de cartas */
+function pauloS(u,s){
+ const g=s===3,hair="#3A2A20",beardC="#3F2E23";
+ const hairS=`<path d="M69.5 80C65 66 68 54 76 47C75 57 76 67 79.5 77Z" fill="${hair}"/><path d="M130.5 80C135 66 132 54 124 47C125 57 124 67 120.5 77Z" fill="${hair}"/>
+ <path d="M96 41C98 37 104 37 106 41C104 44 98 44 96 41Z" fill="${hair}"/><ellipse cx="88" cy="50" rx="10" ry="5" fill="#fff" opacity=".22" transform="rotate(-20 88 50)"/>`;
+ const beard=`<path d="M70 76C70 100 83 124 100 133C117 124 130 100 130 76C126 88 118 91.5 112.5 89.5C108 88 104 87.5 100 87.5C96 87.5 92 88 87.5 89.5C82 91.5 74 88 70 76Z" fill="${beardC}"/>
+ <path d="M84 104Q92 114 100 122M116 104Q108 114 100 122M94 112Q98 120 100 128" stroke="#5A4434" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+ <path d="M86.5 90Q100 83.5 113.5 90Q107 95 100 93Q93 95 86.5 90Z" fill="#2E2119"/>`;
+ const mouthOver=`<path d="M95.5 97.5Q100 100.5 104.5 97.5" stroke="#E7A38B" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+ const scroll=`<g><rect x="78" y="132" width="44" height="22" rx="2" fill="#F4E8C8"/><path d="M84 138H116M84 143H112M84 148H114" stroke="#B9A27A" stroke-width="1.8" stroke-linecap="round"/>
+  <rect x="73" y="129" width="9" height="28" rx="4.5" fill="#B98A52"/><rect x="118" y="129" width="9" height="28" rx="4.5" fill="#B98A52"/><rect x="75.5" y="125" width="4" height="36" rx="2" fill="#7A5634"/><rect x="120.5" y="125" width="4" height="36" rx="2" fill="#7A5634"/></g>`;
+ const o={skin:"#D2A07A",skinSh:"#B07F5A",brow:"#3A2A20",tunic:"#EADFC8",tunicSh:"#CDBF9F",mantle:"#8A2F3C",mantleSh:"#64202B",trim:"#E7A0A8",sleeve:"#EADFC8",sleeveR:"#CDBF9F",belt:"#5C3A22",gold:g,
+  hair:hairS,beard,mouthOver,arms:s===0?"down":"front",held:s>=1?scroll:""};
+ const fig=personS(u,o);
+ if(s<2)return`${shadowS(s===0?44:46)}${fig}`;
+ const letters=`<g><rect x="146" y="170" width="44" height="13" rx="6.5" fill="#EFE1BD"/><rect x="186" y="170" width="6" height="13" rx="3" fill="#B98A52"/>
+  <rect x="152" y="158" width="38" height="12" rx="6" fill="#F6EBCF"/><rect x="186" y="158" width="6" height="12" rx="3" fill="#B98A52"/>
+  <path d="M150 176H180M156 163.5H182" stroke="#C8B489" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M160 152C164 140 172 130 186 122C182 134 174 146 162 154Z" fill="#F7F7F2"/><path d="M161 154L183 125" stroke="#C9C9C0" stroke-width="1.4"/>
+  <path d="M152 186C150 178 152 172 158 170H170C176 172 178 178 176 186Z" fill="#2D3A4E"/><ellipse cx="164" cy="170" rx="7" ry="2.4" fill="#16202E"/></g>`;
+ return`${g?auraS(u,"#FFD45C"):""}${shadowS(60,188)}<g transform="translate(-14 0)">${fig}</g>${letters}${g?legendSpark():""}`;
 }
 
-/* Dani · harpia (gavião-real) */
-function daniAdult(u,o={}){
- const j=o.juv,g=o.gold;
- const head=j?"#E7EAEE":"#C3C8CF",crest=j?"#B2B8C0":"#767D86",crest2=j?"#9AA1A9":"#5B626A",wing=j?"#8E959E":"#4C535C",band=j?"#A9AFB6":"#2E3238",wl=j?"#C3C8CE":"#8B929B";
- const wings=o.spread?(()=>{
-  const prim=[[26,64,134,32],[28,70,124,33],[32,76,114,33],[37,82,106,31],[43,88,100,29]];
-  const sec=[[50,94,96,27],[57,99,92,26],[64,104,90,24],[70,108,88,22]];
-  let f="";sec.forEach(([x,y,a,l],i)=>f+=featherS(x,y,a,l,6.6,i%2?"#5A626C":"#4C535C"));
-  prim.forEach(([x,y,a,l],i)=>f+=featherS(x,y,a,l,6.4,i%2?"#5A626C":"#454B53"));
-  const cov=`<path d="M78 106C68 86 52 70 32 60C24 56 18 62 22 68C30 80 40 92 50 102C58 110 68 116 78 112Z" fill="${wing}"/><path d="M30 66C44 74 56 84 66 96M38 80C48 86 58 94 66 104" stroke="${g?GOLD:wl}" stroke-width="3" fill="none" stroke-linecap="round"/>`;
-  const one=f+cov;return one+`<g transform="translate(200 0) scale(-1 1)">${one}</g>`})():"";
- const rot=o.open?12:0;
- const cl=j?[[86,50,-128,18,4.6],[92,47,-112,20,4.6],[96,47,-98,15,4]]:[[84,52,-140,24,5.2],[89,48,-124,32,5.6],[95,46,-108,30,5.4],[99,46,-96,20,4.4]];
- const half=cl.map(([x,y,a,l,w],i)=>featherS(x,y,a,l,w,i%2?crest:crest2,g?` stroke="${GOLD}" stroke-width="1.3"`:"")).join("");
- const crestF=`${half}<g transform="translate(200 0) scale(-1 1)">${half}</g>`;
- return`${wings}<path d="M76 150C74 166 80 176 92 176C98 168 98 156 96 148Z" fill="#E9E9E6"/><path d="M124 150C126 166 120 176 108 176C102 168 102 156 104 148Z" fill="#E9E9E6"/>
- <path d="M78 160C82 162 88 162 92 160M80 168C84 170 88 170 92 168M122 160C118 162 112 162 108 160M120 168C116 170 112 170 108 168" stroke="#BABDC1" stroke-width="2" fill="none" stroke-linecap="round"/>
- <ellipse cx="88" cy="179" rx="10" ry="6" fill="#F2C14E"/><ellipse cx="112" cy="179" rx="10" ry="6" fill="#F2C14E"/>
- <path d="M80 182L78 188M88 184L88 190M96 182L98 188M104 182L102 188M112 184L112 190M120 182L122 188" stroke="#2B2E33" stroke-width="2.6" stroke-linecap="round"/>
- <ellipse cx="100" cy="132" rx="40" ry="44" fill="#F5F5F2"/>
- ${o.spread?`<path d="M63 108C55 128 57 154 70 170C73 150 73 128 71 110ZM137 108C145 128 143 154 130 170C127 150 127 128 129 110Z" fill="${wing}"/>`:`<g transform="rotate(${rot} 68 104)"><path d="M62 102C44 116 40 148 50 172C58 176 66 170 70 160C76 140 76 118 70 104Z" fill="${wing}"/><path d="M48 130C56 128 64 130 70 134M47 146C55 144 64 146 70 150M51 162C57 160 63 162 68 166" stroke="${wl}" stroke-width="3" fill="none" stroke-linecap="round"/></g>
- <g transform="rotate(${-rot} 132 104)"><path d="M138 102C156 116 160 148 150 172C142 176 134 170 130 160C124 140 124 118 130 104Z" fill="${wing}"/><path d="M152 130C144 128 136 130 130 134M153 146C145 144 136 146 130 150M149 162C143 160 137 162 132 166" stroke="${wl}" stroke-width="3" fill="none" stroke-linecap="round"/></g>`}
- <path d="M64 100C78 112 122 112 136 100C138 112 134 122 126 126C110 132 90 132 74 126C66 122 62 112 64 100Z" fill="${band}"/>
- ${crestF}
- 
- 
- <circle cx="100" cy="72" r="32" fill="${head}"/>
- <ellipse cx="100" cy="79" rx="24" ry="20" fill="${j?"#F2F4F6":"#D9DDE2"}"/>
- <path d="M78 66C84 62 92 62 96 66M104 66C108 62 116 62 122 66" stroke="${j?"#BFC5CC":"#8C939B"}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
- ${eyeS(87,73,6.6,"#1A1C1F")}${eyeS(113,73,6.6,"#1A1C1F")}
- <path d="M93 82C95 78 105 78 107 82C110 90 106 100 99 104C100 96 97 88 93 82Z" fill="#2A2D31"/>
- <path d="M93 82C96 79 104 79 107 82C104 84 96 84 93 82Z" fill="#59606A"/>`;
-}
-function artDani(s,u){
- if(s===0)return`${shadowS(34)}
- <ellipse cx="90" cy="181" rx="8" ry="5" fill="#EBD79A"/><ellipse cx="110" cy="181" rx="8" ry="5" fill="#EBD79A"/>
- <circle cx="100" cy="146" r="35" fill="#F4F4F1"/>
- <path d="M66 140C58 132 60 122 66 118C66 126 68 132 74 136ZM134 140C142 132 140 122 134 118C134 126 132 132 126 136Z" fill="#F4F4F1"/>
- <path d="M70 150C66 160 70 170 78 174M130 150C134 160 130 170 122 174" stroke="#DCDCD8" stroke-width="3" fill="none" stroke-linecap="round"/>
- <circle cx="100" cy="104" r="31" fill="#FBFBF9"/>
- <path d="M92 76C88 66 92 60 96 62C96 68 96 72 98 76ZM104 76C106 66 112 62 114 66C112 70 108 74 106 78Z" fill="#FBFBF9"/>
- <ellipse cx="100" cy="110" rx="22" ry="17" fill="#EEEFF0"/>
- ${eyeS(88,105,8,"#1A1C1F")}${eyeS(112,105,8,"#1A1C1F")}
- <path d="M95 113C97 110 103 110 105 113C106 119 103 124 100 126C99 121 97 117 95 113Z" fill="#7B8189"/>`;
- if(s===1)return`${shadowS(42)}<g transform="translate(100 188) scale(.9) translate(-100 -188)">${daniAdult(u,{juv:1})}</g>`;
- if(s===2)return`${shadowS(46)}${daniAdult(u,{open:1})}`;
- return`${auraS(u,"#FFC24A")}<circle cx="100" cy="70" r="50" fill="#FFE7A0" opacity=".35"/>${shadowS(48)}${daniAdult(u,{spread:1,gold:1})}${legendSpark()}`;
+/* Lucas · médico e historiador */
+function lucasS(u,s){
+ const g=s===3,hair="#4B3426";
+ const hairS=`<path d="M69 71C65 47 81 34 100 34C120 34 135 47 131 71C128 61 122 55 114 52.5C104 57 92 57 84 52.5C77 55 71.5 61 69 71Z" fill="${hair}"/><path d="M84 52.5C92 46 106 45 114 52.5" stroke="#6B4C38" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+ const beard=`<path d="M72 80C74 99 86 109 100 109C114 109 126 99 128 80C124 88.5 118 92 112 92C108 92 104 91 100 91C96 91 92 92 88 92C82 92 76 88.5 72 80Z" fill="#4E3628"/>
+ <path d="M88.5 89.5Q100 84.5 111.5 89.5Q106 93.5 100 92Q94 93.5 88.5 89.5Z" fill="#3E2A1F"/>`;
+ const mouthOver=`<path d="M95.5 96.5Q100 99.5 104.5 96.5" stroke="#E2A086" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+ const tablet=`<g><rect x="80" y="126" width="40" height="30" rx="3.5" fill="#9C6B3E"/><rect x="84" y="130" width="32" height="22" rx="2" fill="#3C3430"/>
+  <path d="M88 135.5H110M88 140.5H106M88 145.5H108" stroke="#C8BBA7" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M117 118L126 160" stroke="#D9C9A8" stroke-width="3" stroke-linecap="round"/></g>`;
+ const o={skin:"#C99470",skinSh:"#A77452",brow:"#4B3426",tunic:"#E2D8C6",tunicSh:"#C6BAA4",mantle:"#2E7564",mantleSh:"#1E5246",trim:"#9FE0CC",sleeve:"#E2D8C6",sleeveR:"#C6BAA4",belt:"#6B4A2E",gold:g,
+  hair:hairS,beard,mouthOver,arms:s===0?"down":"front",held:s>=1?tablet:""};
+ const fig=personS(u,o);
+ if(s<2)return`${shadowS(s===0?44:46)}${fig}`;
+ const bag=`<g><path d="M150 146C148 122 192 122 190 146" stroke="#6E4426" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+  <path d="M172 146C170 132 174 122 182 116C184 126 182 138 176 146Z" fill="#6FB07A"/><path d="M175 146C175 136 178 126 182 118" stroke="#4E8A5A" stroke-width="1.4" fill="none"/>
+  <path d="M146 154C146 148 150 144 156 144H184C190 144 194 148 194 154V180C194 184 190 186 186 186H154C150 186 146 184 146 180Z" fill="#8B5A33"/>
+  <path d="M146 154C146 148 150 144 156 144H184C190 144 194 148 194 154V161C182 168 158 168 146 161Z" fill="#A46D40"/>
+  <path d="M146 161C158 168 182 168 194 161" stroke="#6E4426" stroke-width="2" fill="none"/>
+  <rect x="166" y="160" width="8" height="10" rx="2" fill="${g?GOLD:"#D7B56D"}"/>
+  <rect x="124" y="177" width="22" height="9" rx="4.5" fill="#EFE1BD"/><rect x="143" y="177" width="5" height="9" rx="2.5" fill="#B98A52"/></g>`;
+ return`${g?auraS(u,"#8FF0D6"):""}${shadowS(60,188)}<g transform="translate(-14 0)">${fig}</g>${bag}${g?legendSpark():""}`;
 }
 
-const CROP={joca:["58 50 100 100","70 44 100 100","88 24 110 110","90 20 110 110"],pri:["48 50 104 104","46 36 108 108","42 20 116 116","42 20 116 116"],tito:["52 78 124 124","62 44 120 120","70 30 120 120","70 30 120 120"],dani:["50 54 100 100","46 22 108 108","40 10 120 120","40 10 120 120"]};
+/* Daniel · profeta na Babilônia */
+function danielS(u,s){
+ const g=s===3,hair="#231913";
+ const hairS=`<path d="M68.5 68C67 44 82 33 100 33C118 33 133 44 131.5 68C127 58 121 53 113 51.5C104 55 95 55 87 51.5C79 53 73 58 68.5 68Z" fill="${hair}"/>
+ <path d="M68 58C82 49 118 49 132 58L131.2 65.5C118 57.5 82 57.5 68.8 65.5Z" fill="${g?GOLD:"#D9A93A"}"/><circle cx="100" cy="52.6" r="3.4" fill="${g?"#FFF3C4":"#2F6FD0"}"/>`;
+ const chain=s===3?`<path d="M86 104Q100 122 114 104" stroke="${GOLD}" stroke-width="3.4" fill="none" stroke-dasharray="3.4 2.2" stroke-linecap="round"/><circle cx="100" cy="117" r="4.6" fill="${GOLD}"/>`:"";
+ const o={skin:"#B97E55",skinSh:"#96603B",brow:"#231913",tunic:"#F0E6D0",tunicSh:"#D4C7AA",mantle:"#2C4FA3",mantleSh:"#1D3878",trim:"#E2B23E",sleeve:"#2C4FA3",sleeveR:"#24438C",belt:"#D9A93A",gold:g,
+  hair:hairS,arms:s===0?"down":"pray",overHands:chain};
+ const fig=personS(u,o);
+ if(s<2)return`${shadowS(s===0?44:46)}${fig}`;
+ const lion=`<g transform="translate(-8 0)">
+  <path d="M196 170C204 160 204 148 196 142" stroke="#C48A43" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="196" cy="140" rx="5" ry="6" fill="#8E4F22"/>
+  <ellipse cx="166" cy="168" rx="32" ry="17" fill="#DDA75E"/><ellipse cx="170" cy="176" rx="26" ry="8" fill="#C9914A"/>
+  ${[0,1,2,3,4,5,6,7,8,9,10,11].map(i=>{const a=i*Math.PI/6;return`<ellipse cx="${(140+21*Math.cos(a)).toFixed(1)}" cy="${(150+21*Math.sin(a)).toFixed(1)}" rx="10" ry="12" transform="rotate(${(i*30+90)} ${(140+21*Math.cos(a)).toFixed(1)} ${(150+21*Math.sin(a)).toFixed(1)})" fill="${i%2?"#9A5726":"#B0672D"}"/>`}).join("")}
+  <circle cx="140" cy="150" r="21" fill="#A65F29"/>
+  <circle cx="140" cy="152" r="15.5" fill="#E9B972"/><ellipse cx="140" cy="160" rx="9" ry="6.4" fill="#F6DDB0"/>
+  <ellipse cx="128.5" cy="137" rx="4.6" ry="4" fill="#E9B972"/><ellipse cx="151.5" cy="137" rx="4.6" ry="4" fill="#E9B972"/>
+  <path d="M132 149Q135.5 152 139 149M141 149Q144.5 152 148 149" stroke="#4A2A14" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <path d="M136.5 156.5Q140 154.6 143.5 156.5L140 160Z" fill="#6B3A1E"/><path d="M140 160V162.5M136 163.5Q140 166 144 163.5" stroke="#6B3A1E" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <ellipse cx="122" cy="181" rx="11" ry="6" fill="#E9B972"/><ellipse cx="146" cy="183" rx="11" ry="6" fill="#E9B972"/>
+  <path d="M117 183V179M122 184V179M127 183V179M141 185V181M146 186V181M151 185V181" stroke="#C9914A" stroke-width="1.4" stroke-linecap="round"/></g>`;
+ return`${g?auraS(u,"#FFC44D"):""}${shadowS(64,188)}<g transform="translate(-18 0)">${fig}</g>${lion}${g?legendSpark():""}`;
+}
+const CROP=(()=>{const c=dx=>`${58+dx} 30 84 84`,r={pedro:[0,0,14,14],paulo:[0,0,-14,-14],lucas:[0,0,-14,-14],daniel:[0,0,-18,-18]},o={};for(const k in r)o[k]=r[k].map(c);return o})();
 function mArt(id,stage,o={}){
  const u="m"+(++MUID)+id;
- const f={joca:artJoca,pri:artPri,tito:artTito,dani:artDani}[id];
- return`<svg viewBox="${o.crop?CROP[id][stage]:"0 0 200 200"}" class="mart${o.cls?" "+o.cls:""}"${o.label?` role="img" aria-label="${o.label}"`:' aria-hidden="true"'}>${f(stage,u)}</svg>`;
+ const f={pedro:pedroS,paulo:pauloS,lucas:lucasS,daniel:danielS}[id];
+ return`<svg viewBox="${o.crop?CROP[id][stage]:"0 0 200 200"}" class="mart${o.cls?" "+o.cls:""}"${o.label?` role="img" aria-label="${o.label}"`:' aria-hidden="true"'}>${f(u,stage)}</svg>`;
 }
 
 /* ================== MENTORES ================== */
+/* Mestres bíblicos: um por nível. Quem sobe de nível é o aluno (RANKS), não o mestre. */
+const RANKS=["Aprendiz","Discípulo","Cooperador","Embaixador"];
 const MENTORS={
- joca:{id:"joca",t:"t1",name:"Joca",sp:"joão-de-barro",he:"o",c1:"#B9532A",c2:"#3D1A0C",acc:"#FFB46E",
-  bio:"O joão-de-barro constrói a casa barrinho por barrinho, com tanto capricho que ela aguenta anos de chuva. Joca ensina a construir a fé sobre a rocha (Mt 7.24).",
-  st:["Filhote","Aprendiz de construtor","Construtor","Mestre construtor"],
-  cheer:["Mais um barrinho na construção!","As paredes estão subindo. Continue firme!","Que obra bonita você está fazendo!","Alicerce firme! Agora dá para construir alto."],
-  say:["Cada barrinho conta. Bora começar pelo alicerce?","As paredes estão subindo! Continue firme.","Casa pronta e de pé. Chuva nenhuma derruba o que foi bem fundado.","Casa sobre a rocha! Agora ajude outros a construir também (2 Tm 2.2)."]},
- pri:{id:"pri",t:"t2",name:"Pri",sp:"coruja-buraqueira",he:"a",c1:"#4836A8",c2:"#140F3A",acc:"#FFD45C",
-  bio:"A coruja-buraqueira cava a própria toca e enxerga bem de dia e de noite. Pri gosta de ir fundo nas verdades da fé, como Priscila, que explicou a Apolo “com mais exatidão o caminho de Deus” (At 18.26).",
-  st:["Corujinha","Estudante","Doutora","Mestra das Escrituras"],
-  cheer:["Cavou fundo nessa! Gostei.","Cada lição deixa a toca mais funda.","Você está explicando com mais exatidão a cada dia.","Doutrina firme, coração aquecido. Lindo!"],
-  say:["Pergunta boa é aquela que faz a gente cavar mais fundo.","Doutrina não é decoreba: é conhecer melhor quem Deus é.","Você já explica com exatidão. Isso abre muitas portas.","Agora você ensina com clareza e mansidão. Que alegria!"]},
- tito:{id:"tito",t:"t3",name:"Tito",sp:"tatu-bola",he:"o",c1:"#22646F",c2:"#09252B",acc:"#7FE3D3",
-  bio:"O tatu-bola se fecha numa armadura quando é ameaçado. Tito treina a defesa da fé com a armadura de Deus (Ef 6.11-17). Seu nome vem de Tito, a quem Paulo pediu líderes capazes de “convencer os que contradizem” (Tt 1.9).",
-  st:["Bolinha","Escudeiro","Defensor","Guardião"],
-  cheer:["Mais uma peça da armadura!","Firme e manso: é assim que se treina.","Sua defesa está ficando forte.","Armadura completa. Agora é viver o que aprendeu!"],
-  say:["Ninguém nasce de armadura pronta. A gente treina.","Escudo da fé em mãos! As objeções já não te derrubam.","Capacete, cinto e escudo. Firme, mas sempre manso.","Armadura completa! Defenda a fé e cuide das pessoas."]},
- dani:{id:"dani",t:"t4",name:"Dani",sp:"harpia",he:"a",c1:"#2557B8",c2:"#0A1A3D",acc:"#FFC44D",
-  bio:"A harpia, ou gavião-real, é a maior águia do Brasil e enxerga a floresta inteira lá de cima. O nome da Dani vem de Daniel, que teve coragem e visão longe de casa (Dn 6.10).",
-  st:["Filhote","Jovem","Gavião-real","Atalaia"],
-  cheer:["Olha só a vista daqui de cima!","Suas asas estão ficando fortes.","Você já enxerga as lentes de cada ideia.","Voo completo! Agora inspire outros a voar."],
-  say:["Daqui de cima tudo fica mais claro. Vem ver?","Suas asas estão ficando fortes. Coragem!","Você enxerga as lentes por trás de cada ideia.","Atalaia de verdade: vê longe e avisa com amor (Ez 33.7)."]}
+ pedro:{id:"pedro",t:"t1",name:"Pedro",sp:"pescador da Galileia",he:"o",c1:"#1E6A8A",c2:"#0A2333",acc:"#FFC76B",st:RANKS,
+  bio:"Pescador de Cafarnaum, Pedro largou as redes para seguir Jesus (Mc 1.16-18). Negou o Mestre, foi restaurado por ele (Jo 21.15-17) e escreveu: “estejam sempre preparados para responder” (1 Pe 3.15). Com ele você constrói o alicerce da fé.",
+  cheer:["Mais uma pedra viva na construção (1 Pe 2.5)!","Rede cheia! Você está aprendendo rápido.","Firme na rocha. Continue assim!","Alicerce pronto. Agora é ajudar outros a pescar."],
+  say:["Eu também comecei do zero, consertando redes. Vamos juntos?","Você já sabe dar a razão da sua esperança. Siga firme!","Como pedra viva, você já ajuda a construir a casa de Deus.","Embaixador de Cristo! Agora anime outros a se prepararem (1 Pe 3.15)."]},
+ paulo:{id:"paulo",t:"t2",name:"Paulo",sp:"apóstolo e escritor de cartas",he:"o",c1:"#4836A8",c2:"#140F3A",acc:"#FFD45C",st:RANKS,
+  bio:"Antes perseguidor da igreja, Paulo encontrou Jesus no caminho de Damasco (At 9). Escreveu cartas que explicam a fé, como Romanos, e ensinou que somos salvos pela graça, mediante a fé (Ef 2.8). Com ele você vai fundo na doutrina.",
+  cheer:["Isso! Doutrina firme, coração aquecido.","Cada lição é mais uma carta bem lida.","Você explica a fé com mais clareza a cada dia.","Graça entendida, vida transformada!"],
+  say:["Eu também tive muito a aprender, e Deus foi paciente comigo (1 Tm 1.16).","Doutrina não é decoreba: é conhecer melhor quem Deus é.","Você já ensina com clareza. Como Timóteo, passe adiante (2 Tm 2.2).","Embaixador de Cristo (2 Co 5.20)! Ensine com verdade e amor."]},
+ lucas:{id:"lucas",t:"t3",name:"Lucas",sp:"médico e historiador",he:"o",c1:"#22646F",c2:"#09252B",acc:"#7FE3D3",st:RANKS,
+  bio:"Médico e companheiro de viagem de Paulo (Cl 4.14), Lucas investigou tudo com cuidado desde o princípio antes de escrever o Evangelho e Atos (Lc 1.1-4). Com ele você aprende a responder com evidências e mansidão.",
+  cheer:["Boa investigação!","Fatos no lugar certo. Continue!","Sua defesa está ficando sólida.","Caso bem investigado. Agora é viver o que aprendeu!"],
+  say:["Toda boa resposta começa com uma boa pergunta.","Você já confere as fontes antes de responder. Ótimo!","Você responde com fatos, firmeza e mansidão.","Embaixador de Cristo! Defenda a fé e cuide das pessoas."]},
+ daniel:{id:"daniel",t:"t4",name:"Daniel",sp:"profeta na Babilônia",he:"o",c1:"#2557B8",c2:"#0A1A3D",acc:"#FFC44D",st:RANKS,
+  bio:"Levado jovem para a Babilônia, Daniel estudou a cultura do império sem abrir mão da fé (Dn 1.8). Orava três vezes por dia mesmo sob ameaça, e Deus fechou a boca dos leões (Dn 6). Com ele você aprende a ter coragem no meio de outra cultura.",
+  cheer:["Coragem! Você está enxergando longe.","Firme como quem ora de janela aberta (Dn 6.10).","Você já reconhece as lentes de cada ideia.","Fiel até o fim. Agora inspire outros!"],
+  say:["Dá para viver na Babilônia sem virar babilônio. Vem ver?","Você já percebe as ideias por trás das coisas. Coragem!","Firme e respeitoso, como diante do rei.","Embaixador de Cristo! Brilhe como as estrelas (Dn 12.3)."]}
 };
-const MKEYS=["joca","pri","tito","dani"];
+const MKEYS=["pedro","paulo","lucas","daniel"];
+const OLDMK={joca:"pedro",pri:"paulo",tito:"lucas",dani:"daniel"};
 const MSTAGE=[0,4,9,14];
-const ABIL=[null,{n:"Dica",d:"Elimina uma alternativa errada, 1 vez por lição do tema."},{n:"Segunda chance",d:"Refaça uma questão errada da prova, 1 vez por lição do tema."},{n:"Lendário",d:"Visual dourado e figurinha lendária no álbum."}];
+const ABIL=[null,{n:"Dica",d:"Elimina uma alternativa errada, 1 vez por lição do tema."},{n:"Segunda chance",d:"Refaça uma questão errada da prova, 1 vez por lição do tema."},{n:"Embaixador",d:"Visual dourado e figurinha de ouro do mestre no álbum."}];
 
 /* ================== FIGURINHAS ================== */
 const FCAT={Pessoa:["#E8590C","#F59F00"],"Bíblia":["#C2255C","#F06595"],Argumento:["#1864AB","#4DABF7"],Ideia:["#5F3DC4","#9775FA"],"História":["#2B8A3E","#51CF66"],"Citação":["#3B4351","#7B8594"]};
@@ -1980,7 +1930,7 @@ const STORIES={
 f1:{conf:"explicar o evangelho em 1 minuto",
  mis:"Explique os quatro atos (Criação, Queda, Redenção e Consumação) para alguém da sua casa ou da sua turma, em menos de 1 minuto.",
  s:[
- {k:"mentor",t:"Oi, eu sou o Joca! O joão-de-barro constrói a casa barrinho por barrinho. Fé firme também: começa pelo alicerce."},
+ {k:"mentor",t:"A paz! Eu sou Pedro, pescador da Galileia. Jesus me chamou para pescar gente (Mc 1.17), e eu escrevi: estejam sempre preparados para responder (1 Pe 3.15). Vamos começar pelo alicerce?"},
  {k:"txt",h:"Antes de defender, saiba explicar",p:"Muita gente critica o cristianismo sem nunca ter ouvido o que ele realmente diz. E muito cristão não sabe resumir. Bora resolver isso?"},
  {k:"list",h:"A Bíblia conta uma história em 4 atos",items:["Criação","Queda","Redenção","Consumação"]},
  {k:"txt",tag:"Ato 1",h:"Criação",p:"Deus criou tudo, e tudo era bom. Você foi feito à imagem de Deus (Gn 1.27). Seu valor vem antes de qualquer conquista."},
@@ -2037,7 +1987,7 @@ f3:{conf:"responder a quem diz que a Bíblia foi alterada",
   {t:"Eu creio porque sinto que é verdade.",v:1,r:"Mas eu sinto que não é... e aí?",tip:"Sua experiência importa, mas ela pediu evidência. Use os manuscritos."},
   {t:"Quem fala isso tá enganado pelo diabo, nem vou discutir.",v:0,r:"Nossa, que grosseria. 🙄",tip:"Mansidão (1 Pe 3.15)! Ataque pessoal fecha a porta da conversa."}]},
  {k:"verse"},
- {k:"mentor",t:"Casa bem construída não tem medo de vistoria. A Bíblia também não: pode investigar."}
+ {k:"mentor",t:"Casa construída na rocha não tem medo de vistoria. A Bíblia também não: pode investigar."}
  ]},
 
 f4:{conf:"mostrar que Jesus existiu e afirmou ser Deus",
@@ -2064,7 +2014,7 @@ f4:{conf:"mostrar que Jesus existiu e afirmou ser Deus",
 d1:{conf:"explicar a Trindade sem cair em erro",
  mis:"Explique para alguém a frase “um quê e três quem” e peça para a pessoa repetir com as palavras dela.",
  s:[
- {k:"mentor",t:"Oi, eu sou a Pri! Coruja-buraqueira adora cavar fundo. Doutrina é isso: ir além da superfície. Vamos?"},
+ {k:"mentor",t:"Graça e paz! Eu sou Paulo. Escrevi cartas para ensinar às igrejas aquilo que cremos. Doutrina é isso: ir além da superfície para conhecer melhor a Deus. Vamos?"},
  {k:"txt",h:"Repare no detalhe",p:"Mateus 28.19: batizando “em **nome** do Pai, e do Filho, e do Espírito Santo”. Um nome, no singular. Três Pessoas."},
  {k:"txt",h:"Em uma frase",p:"Há **um só Deus**, que existe eternamente em **três Pessoas**: Pai, Filho e Espírito Santo. As três são igualmente Deus e não se confundem."},
  {k:"big",n:"1 quê · 3 quem",p:"Um único ser divino (o quê) e três Pessoas (quem). Guarde essa fórmula."},
@@ -2145,7 +2095,7 @@ d4:{conf:"contar a história da igreja em poucos marcos",
 a1:{conf:"conversar sobre o sofrimento com alguém",
  mis:"Pense em alguém que está sofrendo. Mande uma mensagem só para dizer que você se importa, sem argumentos.",
  s:[
- {k:"mentor",t:"E aí, eu sou o Tito! Tatu-bola tem armadura, e a Bíblia fala da armadura de Deus (Ef 6.11). Aqui a gente treina defesa: com firmeza e mansidão."},
+ {k:"mentor",t:"Eu sou Lucas, médico e companheiro de Paulo. Antes de escrever, investiguei tudo com cuidado desde o princípio (Lc 1.3). Aqui a gente treina a defesa da fé: com fatos, firmeza e mansidão."},
  {k:"txt",h:"A objeção mais forte",p:"E a mais pessoal. Leve a sério. Mas saiba que existem **dois problemas** diferentes aqui: um lógico e um emocional."},
  {k:"txt",tag:"O problema lógico",h:"“Se Deus é bom, por que o mal?”",p:"“Um Deus bom e todo-poderoso não permitiria o mal. O mal existe. Logo, esse Deus não existe.”"},
  {k:"txt",h:"A resposta de Plantinga",p:"O filósofo Alvin Plantinga mostrou que não há contradição: Deus pode ter boas razões para permitir o mal, como criar seres **realmente livres**. Amor forçado não é amor."},
@@ -2222,13 +2172,13 @@ a4:{conf:"explicar de onde vem o certo e o errado",
   {t:"A Bíblia manda ser bom, então é por isso.",v:1,r:"Mas eu não sigo a Bíblia e sou bom do mesmo jeito.",tip:"Ele não aceita a Bíblia como autoridade. Pergunte de onde vem o dever moral."},
   {t:"Sem Deus ninguém é bom de verdade, você só finge.",v:0,r:"Valeu pela consideração. 🙄",tip:"Falso e ofensivo. Muitos ateus são gentis; a questão é o fundamento."}]},
  {k:"verse"},
- {k:"mentor",t:"Armadura completa! Agora você responde às objeções mais fortes, sempre com mansidão."}
+ {k:"mentor",t:"Investigação completa! Agora você responde às objeções mais fortes, sempre com mansidão."}
  ]},
 
 c1:{conf:"enxergar a cosmovisão por trás de uma música ou série",
  mis:"Escolha uma música ou série de que você gosta e responda as 4 perguntas de cosmovisão sobre ela.",
  s:[
- {k:"mentor",t:"Eu sou a Dani, uma harpia! Lá de cima a gente enxerga a floresta inteira. Cosmovisão é isso: ver a vida toda pelas lentes certas."},
+ {k:"mentor",t:"Eu sou Daniel. Fui levado jovem para a Babilônia e decidi ser fiel no meio de outra cultura (Dn 1.8). Cosmovisão é isso: ver a vida toda pelas lentes certas."},
  {k:"txt",h:"Todo mundo usa lentes",p:"Cosmovisão é o conjunto de convicções pelas quais você enxerga tudo. Todo mundo tem uma, inclusive quem diz que não tem."},
  {k:"list",h:"4 perguntas revelam qualquer cosmovisão",items:["Origem: de onde viemos?","Sentido: por que estamos aqui?","Moral: como devemos viver?","Destino: para onde vamos?"]},
  {k:"txt",tag:"Concorrente 1",h:"Naturalismo",p:"Só existe matéria. Origem: acaso. Sentido: nenhum, só o que você inventar. Destino: o nada."},
@@ -2326,18 +2276,18 @@ const LOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
 function shuf(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function fmt(s){return esc(s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/(^|[\s(“])_(.+?)_(?=[\s.,;:!?)”]|$)/g,"$1<i>$2</i>")}
 function fmtDay(k){const[y,m,d]=k.split("-");return d+"/"+m}
-function normState(){["story","missions","figSeen","mstage","duelDay"].forEach(k=>{if(!S[k]||typeof S[k]!=="object")S[k]={}});S.sp=Object.assign({auto:true,audio:false},S.sp||{});MKEYS.forEach(k=>{if(S.mstage[k]==null)S.mstage[k]=mStage(k)})}
+function normState(){["story","missions","figSeen","mstage","duelDay"].forEach(k=>{if(!S[k]||typeof S[k]!=="object")S[k]={}});S.sp=Object.assign({auto:true,audio:false},S.sp||{});for(const o in OLDMK){const n=OLDMK[o];if(S.figSeen["L-"+o]){S.figSeen["L-"+n]=1;delete S.figSeen["L-"+o]}delete S.mstage[o]}MKEYS.forEach(k=>{if(S.mstage[k]==null)S.mstage[k]=mStage(k)})}
 function nextStoryIn(t){return t.mods.find(id=>!storyDone(id))||t.mods.find(id=>!passed(id))||t.mods[0]}
 function nextLessonAfter(id){const seq=TRACKS.flatMap(t=>t.mods),i=seq.indexOf(id),n=seq[i+1];return n&&trackUnlocked(trackOf(n))?n:null}
 
 let FIGL=null;
 function figList(){if(FIGL)return FIGL;const L=[];let n=0;
  TRACKS.forEach(t=>{t.mods.forEach(id=>FIGS[id].forEach((f,r)=>L.push(Object.assign({},f,{id:id+"-"+r,les:id,r,tr:t.id,no:++n}))));
-  const k=mkOfTrack(t),M=MENTORS[k];L.push({id:"L-"+k,leg:k,r:3,tr:t.id,no:++n,n:M.name+", "+M.st[3],c:"Lenda",g:"",d:`Figurinha lendária: ${M.name} chegou ao último estágio. Só aparece para quem leva o tema inteiro a sério.`})});
+  const k=mkOfTrack(t),M=MENTORS[k];L.push({id:"L-"+k,leg:k,r:3,tr:t.id,no:++n,n:M.name+" de ouro",c:"Lenda",g:"",d:`Figurinha de ouro: você chegou a Embaixador com ${M.name}. Só aparece para quem leva o nível inteiro a sério.`})});
  return FIGL=L}
 function figOwned(f){return f.leg?mStage(f.leg)>=3:f.r===0?storyDone(f.les):f.r===1?passed(f.les):perfect(f.les)}
 function figNew(){return figList().filter(f=>figOwned(f)&&!S.figSeen[f.id])}
-const FCOND=["Termine os stories da lição","Aprove a prova da lição","Tire nota máxima na prova","Leve o mentor ao estágio 4"];
+const FCOND=["Termine os stories da lição","Aprove a prova da lição","Tire nota máxima na prova","Chegue a Embaixador com o mestre"];
 function figCard(f,o={}){
  const num=String(f.no).padStart(2,"0");
  if(!o.force&&!figOwned(f))return`<div class="fig lock" role="img" aria-label="Figurinha ${num}, ainda não conquistada. ${FCOND[f.r]}."><span class="fig-num">Nº ${num}</span><span class="fig-q" aria-hidden="true">?</span><span class="fig-cond" aria-hidden="true">${FCOND[f.r]}</span></div>`;
@@ -2360,7 +2310,7 @@ function modal(html,o={}){
 }
 function figModal(id){
  const f=figList().find(x=>x.id===id);if(!f)return;const t=TRACKS.find(t=>t.id===f.tr);
- modal(`${figCard(f,{tag:"div",force:1})}<div class="card stack"><p>${esc(f.d)}</p>${f.les?`<p class="small muted">Lição ${t.n}.${t.mods.indexOf(f.les)+1}: ${esc(MODS[f.les].title)}</p>`:""}<div class="row">${f.les?`<a class="btn pri" href="#s-${f.les}">Ver a lição</a>`:`<a class="btn pri" href="#mentor-${f.leg}">Ver mentor</a>`}<button class="btn" data-close data-focus>Fechar</button></div></div>`,{label:"Figurinha "+f.n});
+ modal(`${figCard(f,{tag:"div",force:1})}<div class="card stack"><p>${esc(f.d)}</p>${f.les?`<p class="small muted">Lição ${t.n}.${t.mods.indexOf(f.les)+1}: ${esc(MODS[f.les].title)}</p>`:""}<div class="row">${f.les?`<a class="btn pri" href="#s-${f.les}">Ver a lição</a>`:`<a class="btn pri" href="#mentor-${f.leg}">Ver mestre</a>`}<button class="btn" data-close data-focus>Fechar</button></div></div>`,{label:"Figurinha "+f.n});
 }
 function packModal(){
  const L=figNew();if(!L.length)return;
@@ -2371,7 +2321,7 @@ function packModal(){
 function maybeEvo(){const k=MKEYS.find(k=>mStage(k)>(S.mstage[k]??0));if(k)showEvo(k)}
 function showEvo(k){
  const M=MENTORS[k],prev=S.mstage[k]??0,now=mStage(k);S.mstage[k]=now;save();
- modal(`<div class="mhero" style="width:100%"><span class="stg">Evolução!</span><div class="evo-st"><span class="a">${mArt(k,prev)}</span><span class="b">${mArt(k,now)}</span></div><h1>${M.name} evoluiu!</h1><p>Agora ${elx(k)} é <b>${M.st[now]}</b>.</p>${ABIL[now]?`<div class="say"><b>Nova habilidade: ${ABIL[now].n}</b><br>${ABIL[now].d}</div>`:""}</div><button class="btn pri block" data-close data-focus>Continuar</button>`,{style:mVars(k),label:M.name+" evoluiu",sticky:1,onClose:()=>route()});
+ modal(`<div class="mhero" style="width:100%"><span class="stg">Subiu de nível!</span><div class="evo-st"><span class="a">${mArt(k,prev)}</span><span class="b">${mArt(k,now)}</span></div><h1>Agora você é ${M.st[now]}!</h1><p>Na escola de ${M.name}, você passou de ${M.st[prev]} para <b>${M.st[now]}</b>.</p>${ABIL[now]?`<div class="say"><b>Nova habilidade: ${ABIL[now].n}</b><br>${ABIL[now].d}</div>`:""}</div><button class="btn pri block" data-close data-focus>Continuar</button>`,{style:mVars(k),label:"Você subiu de nível com "+M.name,sticky:1,onClose:()=>route()});
 }
 function doneMission(id,note,quiet){
  const ms=S.missions[id]||(S.missions[id]={got:today()});if(ms.done)return;ms.done=today();if(note)ms.note=String(note).slice(0,400);
@@ -2380,7 +2330,7 @@ function doneMission(id,note,quiet){
 
 /* ----- Telas novas ----- */
 function mentorsRow(){
- return`<section class="ments-wrap"><div class="ments-head"><h2>Stories dos mentores</h2><a href="#mentores">Ver mentores ›</a></div>
+ return`<section class="ments-wrap"><div class="ments-head"><h2>Stories dos mestres</h2><a href="#mentores">Ver mestres ›</a></div>
  <div class="ments">${MKEYS.map(k=>{const M=MENTORS[k],t=trackOfMk(k),un=trackUnlocked(t),nw=un&&t.mods.some(id=>!storyDone(id));
   return`<button class="ment ${un?"":"locked"} ${nw?"new":""}" data-ment="${k}" style="${mVars(k)}" aria-label="${M.name}, ${esc(t.name)}${un?(nw?", tem lição nova":""):", bloqueado"}"><span class="ring"><span class="face">${face(k)}</span>${un?(nw?'<span class="newb">Novo</span>':""):`<span class="lockb">${LOCK}</span>`}</span><b>${M.name}</b><small>${esc(t.name)}</small></button>`}).join("")}</div></section>`;
 }
@@ -2396,22 +2346,22 @@ function albumCardHTML(){const L=figList(),own=L.filter(f=>figOwned(f)&&S.figSee
 
 function viewMentores(){
  app.innerHTML=`<a class="back" href="#inicio">${IC.back} Início</a>
- <section class="hero"><span class="eyebrow"><span class="rub">¶</span> Quem caminha com você</span><h1>Seus mentores</h1><p class="lead">Cada tema tem um mentor. Ele evolui quando você assiste aos stories, aprova a prova, tira nota máxima e cumpre a missão de cada lição.</p></section>
+ <section class="hero"><span class="eyebrow"><span class="rub">¶</span> Quem caminha com você</span><h1>Seus mestres</h1><p class="lead">Cada nível tem um mestre da Bíblia. Você sobe de nível com ele, de Aprendiz a Embaixador, quando assiste aos stories, aprova a prova, tira nota máxima e cumpre a missão de cada lição.</p></section>
  <div class="mgrid">${MKEYS.map(k=>{const M=MENTORS[k],t=trackOfMk(k),st=mStage(k),p=mPts(k),nx=MSTAGE[st+1],un=trackUnlocked(t);
-  return`<a class="mtile ${un?"":"locked"}" href="#mentor-${k}" style="${mVars(k)}"><span class="art">${mArt(k,st)}</span><b>${M.name}</b><span>${esc(t.name)} · ${M.st[st]}</span><div class="bar" aria-hidden="true"><i style="width:${nx!=null?Math.round((p-MSTAGE[st])/(nx-MSTAGE[st])*100):100}%"></i></div></a>`}).join("")}</div>`;
+  return`<a class="mtile ${un?"":"locked"}" href="#mentor-${k}" style="${mVars(k)}"><span class="art">${mArt(k,st)}</span><b>${M.name}</b><span>${esc(t.name)} · você: ${M.st[st]}</span><div class="bar" aria-hidden="true"><i style="width:${nx!=null?Math.round((p-MSTAGE[st])/(nx-MSTAGE[st])*100):100}%"></i></div></a>`}).join("")}</div>`;
 }
 function ptsHTML(id){return`<div class="pts-row">${[["Stories",storyDone(id)],["Prova",passed(id)],["Nota máxima",perfect(id)],["Missão",misDone(id)]].map(([n,o])=>`<span class="pt ${o?"on":""}">${o?IC.check:""}${n}</span>`).join("")}</div>`}
 function viewMentor(k){
  const M=MENTORS[k];if(!M){location.replace("#mentores");return}
  const t=trackOfMk(k),st=mStage(k),p=mPts(k),un=trackUnlocked(t),nx=MSTAGE[st+1];
- app.innerHTML=`<a class="back" href="#mentores">${IC.back} Mentores</a>
- <section class="mhero" style="${mVars(k)}"><div class="big">${mArt(k,st,{label:`${M.name}, ${M.sp}, estágio ${st+1}`})}</div><h1>${M.name}</h1><span class="msp">${M.sp[0].toUpperCase()+M.sp.slice(1)} · mentor${M.he==="a"?"a":""} de ${esc(t.name)}</span><span class="stg">Estágio ${st+1} de 4 · ${M.st[st]}</span><div class="say">${esc(un?M.say[st]:"Aprove 3 lições do nível anterior para começarmos!")}</div></section>
+ app.innerHTML=`<a class="back" href="#mentores">${IC.back} Mestres</a>
+ <section class="mhero" style="${mVars(k)}"><div class="big">${mArt(k,st,{label:`${M.name}, ${M.sp}`})}</div><h1>${M.name}</h1><span class="msp">${M.sp[0].toUpperCase()+M.sp.slice(1)} · mestre de ${esc(t.name)}</span><span class="stg">Seu nível: ${M.st[st]} (${st+1} de 4)</span><div class="say">${esc(un?M.say[st]:"Aprove 3 lições do nível anterior para começarmos!")}</div></section>
  ${un?`<a class="btn pri block" href="#s-${nextStoryIn(t)}">${t.mods.every(storyDone)?"Rever stories":"Assistir à próxima lição"}</a>`:""}
- <div class="card stack"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.15rem">${nx!=null?"Próxima evolução":"Evolução completa"}</h2><span class="ref">${p} de 16 pontos</span></div>
-  ${nx!=null?`<div class="bar"><i style="width:${Math.round((p-MSTAGE[st])/(nx-MSTAGE[st])*100)}%"></i></div><p class="small muted">${nx-p===1?"Falta":"Faltam"} <b>${nx-p}</b> ponto${nx-p===1?"":"s"} para ${M.name} virar <b>${M.st[st+1]}</b>.</p>`:`<p class="small muted">${M.name} chegou ao estágio lendário. Que caminhada!</p>`}
+ <div class="card stack"><div class="row" style="justify-content:space-between"><h2 style="font-size:1.15rem">${nx!=null?"Próximo nível":"Nível máximo"}</h2><span class="ref">${p} de 16 pontos</span></div>
+  ${nx!=null?`<div class="bar"><i style="width:${Math.round((p-MSTAGE[st])/(nx-MSTAGE[st])*100)}%"></i></div><p class="small muted">${nx-p===1?"Falta":"Faltam"} <b>${nx-p}</b> ponto${nx-p===1?"":"s"} para você virar <b>${M.st[st+1]}</b>.</p>`:`<p class="small muted">Você chegou a Embaixador com ${M.name}. Que caminhada!</p>`}
   <p class="small muted">Cada lição do tema vale até 4 pontos: stories, prova aprovada, nota máxima e missão cumprida.</p></div>
- <div class="card stack"><h2 style="font-size:1.15rem">Evolução</h2><div class="evo">${M.st.map((n,i)=>`<div class="${i<=st?"":"off"} ${i===st?"cur":""}"><div class="ev-art">${mArt(k,i)}${i>st?'<span class="q">?</span>':""}</div><b>${i<=st?n:"???"}</b><span>${MSTAGE[i]} pts</span></div>`).join("")}</div></div>
- <div class="card stack"><h2 style="font-size:1.15rem">Habilidades</h2><div class="abil">${[1,2,3].map(i=>`<div class="${st>=i?"on":""}"><i>${i+1}</i><div><b>${ABIL[i].n}</b><p>${st>=i?ABIL[i].d:`Libera no estágio ${i+1}. ${ABIL[i].d}`}</p></div></div>`).join("")}</div></div>
+ <div class="card stack"><h2 style="font-size:1.15rem">Seus níveis</h2><div class="evo">${M.st.map((n,i)=>`<div class="${i<=st?"":"off"} ${i===st?"cur":""}"><div class="ev-art">${mArt(k,i)}${i>st?'<span class="q">?</span>':""}</div><b>${i<=st?n:"???"}</b><span>${MSTAGE[i]} pts</span></div>`).join("")}</div></div>
+ <div class="card stack"><h2 style="font-size:1.15rem">Habilidades</h2><div class="abil">${[1,2,3].map(i=>`<div class="${st>=i?"on":""}"><i>${i+1}</i><div><b>${ABIL[i].n}</b><p>${st>=i?ABIL[i].d:`Libera quando você chegar a ${RANKS[i]}. ${ABIL[i].d}`}</p></div></div>`).join("")}</div></div>
  <div class="card"><h2 style="font-size:1.15rem;margin-bottom:4px">Lições de ${esc(t.name)}</h2><div class="mles">${t.mods.map((id,i)=>{const ms=S.missions[id];
   return`<div><div class="row"><b>${t.n}.${i+1} ${esc(MODS[id].title)}</b>${un?`<a class="btn ${storyDone(id)?"":"pri"}" href="#s-${id}">${storyDone(id)?"Rever":"Assistir"}</a>`:""}</div>${ptsHTML(id)}
   ${ms&&ms.done?`<p class="small muted">Missão cumprida em ${fmtDay(ms.done)}.</p>`:ms&&ms.got?`<p class="small"><b>Missão:</b> ${esc(STORIES[id].mis)}</p><div class="row"><button class="btn" data-misdone="${id}">Cumpri a missão</button></div>`:storyDone(id)?`<p class="small muted">A missão desta lição aparece no fim dos stories.</p>`:""}</div>`}).join("")}</div></div>
@@ -2423,7 +2373,7 @@ function viewAlbum(){
  app.innerHTML=`<a class="back" href="#inicio">${IC.back} Início</a>
  <section class="hero"><span class="eyebrow"><span class="rub">¶</span> Coleção</span><h1>Álbum de figurinhas</h1><p class="lead">Cada lição guarda 3 figurinhas: uma por terminar os stories, uma por aprovar a prova e uma brilhante por tirar nota máxima. Cada tema tem ainda uma lendária.</p></section>
  <div class="card stack"><div class="row" style="justify-content:space-between"><b>${own} de ${L.length} coladas</b><span class="ref">${Math.round(own/L.length*100)}%</span></div><div class="bar"><i style="width:${(own/L.length*100).toFixed(1)}%"></i></div>${nw?`<button class="btn pri" id="openPack">Abrir pacotinho (${nw} nova${nw>1?"s":""})</button>`:""}</div>
- ${TRACKS.map(t=>{const k=mkOfTrack(t),fs=L.filter(f=>f.tr===t.id);return`<section class="stack"><div class="row" style="gap:10px;flex-wrap:nowrap"><span class="mini-av" style="${mVars(k)}" aria-hidden="true">${face(k)}</span><div style="min-width:0;flex:1"><h2 style="font-size:1.15rem">${t.n}. ${esc(t.name)}</h2><p class="small muted">${fs.filter(f=>figOwned(f)&&S.figSeen[f.id]).length} de ${fs.length} · mentor${MENTORS[k].he==="a"?"a":""}: ${MENTORS[k].name}</p></div></div><div class="figs">${fs.map(f=>figCard(f)).join("")}</div></section>`}).join("")}`;
+ ${TRACKS.map(t=>{const k=mkOfTrack(t),fs=L.filter(f=>f.tr===t.id);return`<section class="stack"><div class="row" style="gap:10px;flex-wrap:nowrap"><span class="mini-av" style="${mVars(k)}" aria-hidden="true">${face(k)}</span><div style="min-width:0;flex:1"><h2 style="font-size:1.15rem">${t.n}. ${esc(t.name)}</h2><p class="small muted">${fs.filter(f=>figOwned(f)&&S.figSeen[f.id]).length} de ${fs.length} · mestre: ${MENTORS[k].name}</p></div></div><div class="figs">${fs.map(f=>figCard(f)).join("")}</div></section>`}).join("")}`;
  app.querySelectorAll("[data-fig]").forEach(b=>b.onclick=()=>figModal(b.dataset.fig));
  app.querySelectorAll("[data-pack]").forEach(b=>b.onclick=packModal);
  const op=$("#openPack");if(op)op.onclick=packModal;
@@ -2626,7 +2576,7 @@ if(TTS&&TTS.addEventListener)TTS.addEventListener("voiceschanged",()=>{PTV=null}
 function speechOf(s){
  if(s.k==="tf"||s.k==="pick")return s.q;if(s.k==="order"||s.k==="match"||s.k==="bug")return s.h;
  if(s.k==="chat")return s.who+" mandou: "+s.q;
- if(s.k==="mentorUp"){const E=ST.evo,M=ST.me;return E.now>E.prev?`${M.name} evoluiu! Agora ${elx(ST.mk)} é ${M.st[E.now]}.`:M.cheer[ST.t.mods.indexOf(ST.id)%M.cheer.length]}if(s.k==="prova"){const q=ST.m.quiz[s.qi];return q.q}
+ if(s.k==="mentorUp"){const E=ST.evo,M=ST.me;return E.now>E.prev?`Você subiu de nível com ${M.name}! Agora você é ${M.st[E.now]}.`:M.cheer[ST.t.mods.indexOf(ST.id)%M.cheer.length]}if(s.k==="prova"){const q=ST.m.quiz[s.qi];return q.q}
  if(s.k==="slider")return s.ph?"E agora? Quão seguro você se sente para "+STORIES[ST.id].conf+"?":"Antes de começar: quão seguro você se sente para "+STORIES[ST.id].conf+"?";
  return slideText(s);
 }
@@ -2751,10 +2701,10 @@ function render(){
   <div class="st-mentor"><div class="bub">${R.sc===1?"Nota máxima! Isso vale uma figurinha brilhante.":R.ok?"Lição aprovada. Revise o que errou e siga em frente!":"Repetição gera domínio. Revise os stories e tente de novo."}</div><span class="art" style="width:min(36vw,150px)" aria-hidden="true">${art(mk)}</span></div></div>`;
   foot=R.ok?`<button class="st-btn" id="stNext">Continuar</button>`:`<div class="st-row"><button class="st-btn" id="redo">Refazer a prova</button><button class="st-btn ghost" id="stNext">Continuar</button></div>`;break}
  case"mentorUp":{const E=ST.evo,st=E.now,p=mPts(mk),nx=MSTAGE[st+1],evo=E.now>E.prev;
-  if(evo){const av=$(".st-ava");if(av)av.innerHTML=face(mk);h=`<div class="st-c st-anim" style="align-items:center;text-align:center"><span class="st-tag">Evolução!</span><div class="evo-st"><span class="a">${mArt(mk,E.prev)}</span><span class="b">${mArt(mk,st)}</span></div><h2 class="st-h">${me.name} evoluiu!</h2><p class="st-p">Agora ${elx(mk)} é <b>${me.st[st]}</b>.</p>${ABIL[st]?`<div class="st-card" style="text-align:left"><b>Nova habilidade: ${ABIL[st].n}</b><span style="opacity:.9">${ABIL[st].d}</span></div>`:""}</div>`;foot=`<button class="st-btn" id="stNext">Continuar</button>`}
-  else{h=`<div class="st-c st-anim"><span class="st-tag">Seu mentor</span><div class="st-mentor"><div class="bub">${esc(me.cheer[t.mods.indexOf(id)%me.cheer.length])}</div><span class="art" style="width:min(48vw,200px)" aria-hidden="true">${art(mk)}</span></div>
-   <div class="st-card"><div style="display:flex;justify-content:space-between;gap:10px;font-weight:700"><span>${me.name} · ${me.st[st]}</span><span style="opacity:.85">${p}/16 pts</span></div><div class="st-meter"><i style="width:${nx!=null?Math.round((p-MSTAGE[st])/(nx-MSTAGE[st])*100):100}%"></i></div>
-   <span style="opacity:.9;font-size:.92rem">${nx!=null?`${nx-p===1?"Falta":"Faltam"} ${nx-p} ponto${nx-p===1?"":"s"} para ${elx(mk)} virar ${me.st[st+1]}. Nesta lição:`:"Estágio lendário! Nesta lição:"}</span>
+  if(evo){const av=$(".st-ava");if(av)av.innerHTML=face(mk);h=`<div class="st-c st-anim" style="align-items:center;text-align:center"><span class="st-tag">Subiu de nível!</span><div class="evo-st"><span class="a">${mArt(mk,E.prev)}</span><span class="b">${mArt(mk,st)}</span></div><h2 class="st-h">Agora você é ${me.st[st]}!</h2><p class="st-p">Na escola de ${me.name}, você passou de ${me.st[E.prev]} para <b>${me.st[st]}</b>.</p>${ABIL[st]?`<div class="st-card" style="text-align:left"><b>Nova habilidade: ${ABIL[st].n}</b><span style="opacity:.9">${ABIL[st].d}</span></div>`:""}</div>`;foot=`<button class="st-btn" id="stNext">Continuar</button>`}
+  else{h=`<div class="st-c st-anim"><span class="st-tag">Seu mestre</span><div class="st-mentor"><div class="bub">${esc(me.cheer[t.mods.indexOf(id)%me.cheer.length])}</div><span class="art" style="width:min(48vw,200px)" aria-hidden="true">${art(mk)}</span></div>
+   <div class="st-card"><div style="display:flex;justify-content:space-between;gap:10px;font-weight:700"><span>Você · ${me.st[st]}</span><span style="opacity:.85">${p}/16 pts</span></div><div class="st-meter"><i style="width:${nx!=null?Math.round((p-MSTAGE[st])/(nx-MSTAGE[st])*100):100}%"></i></div>
+   <span style="opacity:.9;font-size:.92rem">${nx!=null?`${nx-p===1?"Falta":"Faltam"} ${nx-p} ponto${nx-p===1?"":"s"} para você virar ${me.st[st+1]}. Nesta lição:`:"Você é Embaixador! Nesta lição:"}</span>
    <div class="st-pts">${[["Stories",storyDone(id)],["Prova",passed(id)],["Nota máxima",perfect(id)],["Missão",misDone(id)]].map(([n,o])=>`<span class="${o?"on":""}">${o?IC.check:""}${n}</span>`).join("")}</div></div></div>`}
   break}
  case"pack":{const K=ST.pack,L=K.list;
