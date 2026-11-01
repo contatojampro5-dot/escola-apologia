@@ -14,4 +14,4 @@ Site: https://contatojampro5-dot.github.io/escola-apologia/
 - **Duelo relâmpago**: 2 jogadores no mesmo celular.
 - **Cards** com revisão espaçada, **arena de debate** e **trilha de livros**.
 
-O progresso fica salvo no próprio aparelho. Tudo está num único arquivo, `index.html`.
+O progresso fica salvo no próprio aparelho. O app fica em `index.html`; o `sw.js` (service worker) deixa ele abrir mesmo sem internet depois da primeira visita.
